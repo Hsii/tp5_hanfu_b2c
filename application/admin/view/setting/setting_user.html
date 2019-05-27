@@ -1,0 +1,27 @@
+<table class="wenzhang" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+    <tr>
+        <td width="150" align="right">游客购买：</td>
+        <td>
+            <label class="mar30">
+                <input type="radio" name="info[web_guestbuy]" value="1" class="inputfix" {if condition="$info['web_guestbuy']['setting_value'] eq 1"}checked{/if}
+                > 开启</label>
+            <label class="mar30"><input type="radio" name="info[web_guestbuy]" value="0" class="inputfix" {if condition="$info['web_guestbuy']['setting_value'] eq 0"}checked{/if}
+                > 关闭</label>
+            <span class="c999">（开启后用户可以不注册购买）</span>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">注册验证：</td>
+        <td>
+            <label for="info[web_checkphone]" class="mar10">
+                <input type="checkbox" name="info[web_checkphone]" value="1" id="info[web_checkphone]" class="inputfix" {if condition="$info['web_checkphone']['setting_value'] eq 1"}checked{/if}>
+                手机验证码</label>
+            <label for="info[web_checkemail]" class="mar10">
+                <input type="checkbox" name="info[web_checkemail]" value="1" id="info[web_checkemail]" class="inputfix" {if condition="$info['web_checkemail']['setting_value'] eq 1"}checked="checked"{/if}>
+                邮箱验证码</label>
+            <span class="c999 mal10">（注册时是否验证手机/邮箱）</span>
+        </td>
+    </tr>
+    </tbody>
+</table>

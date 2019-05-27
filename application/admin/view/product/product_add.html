@@ -1,0 +1,174 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a href="javascript:;" class="sel">添加商品<i></i></a>
+                            <div class="clear"></div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" id="form_add">
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                       class="wenzhang mat20 mab20">
+                                    <tr>
+                                        <td align="right">商品名称：</td>
+                                        <td>
+                                            <input type="text" name="info[product_name]" value=""
+                                                   class="inputall input600"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" width="150">商品分类：</td>
+                                        <td>
+                                            <select name="info[category_id]" class="inputselect" style="width:250px">
+                                                <option value="0">-- 商品分类 --</option>
+                                                {foreach name="categoryData" id="vo"}
+                                                <option value="{$vo.id}">
+                                                    {$vo.showname}
+                                                </option>
+                                                {/foreach}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="ruleData_list">
+                                        <td align="right">商品规格：</td>
+                                        <td id="RuleTable">
+                                            <table width="30%" border="0" cellspacing="0" cellpadding="0"
+                                                   class="mab10">
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:;" class="admin_btn mar10" onclick="rule_open()">选择规格</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:;" class="admin_btn mar10" onclick="rule_close()">关闭规格</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div id="RuleTableToggle" style="display: none;">
+                                            {foreach name="ruleData" id="ruleVo"}
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                                   class="wenzhang_bak mab10">
+                                                <tr>
+                                                    <td class="bgtt SKU_TYPE" sku-type-name="{$ruleVo.rule_name}"
+                                                        propid="{$ruleVo.id}"
+                                                        style="padding-left:10px;height:20px;line-height:20px"
+                                                        width="150">{$ruleVo.id}) {$ruleVo.rule_name}
+                                                        <span class="cbbb mal5">[{$ruleVo.rule_memo}]</span>
+                                                    </td>
+                                                    <td>
+                                                        {foreach name="$ruleVo['nature']" item="value"}
+                                                        <label class="rule_id">
+                                                            <input type="checkbox" name="ruledata_id[]" propvalid="{$value.id}" value="{$value.name}" class="mar5 inputfix sku_value"/>
+                                                            {$value.name}<i></i>
+                                                        </label>
+                                                        {/foreach}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            {/foreach}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr id="rule_html" style="display: none;">
+                                        <td align="right">规格信息：</td>
+                                        <td id="rule_list">
+                                            <div id="skuTable"></div>
+                                        </td>
+                                    </tr>
+                                    <tr id="base_html">
+                                        <td align="right">商品价格：</td>
+                                        <td>
+                                            <input type="text" name="info[product_money]"
+                                                   value=""
+                                                   class="inputall input100"/> <span class="c888">元</span></span>，
+                                            库存：<input type="text" name="info[product_num]"
+                                                      value="" class="inputall input100"/> <span
+                                                class="c888">件</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">运　　费：</td>
+                                        <td><input type="text" name="info[product_wlmoney]"
+                                                   value=""
+                                                   class="inputall input100"/> <span class="c888">元</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">赠送积分：</td>
+                                        <td><input type="text" name="info[product_point]"
+                                                   value=""
+                                                   class="inputall input100"/> <span class="c888">个</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                       class="wenzhang mat10 mab10">
+                                    <tr>
+                                        <td align="right" width="150">商品图片：</td>
+                                        <td>
+                                            <div class="layui-upload">
+                                                <button type="button" class="layui-btn layui-btn-normal" id="Upload_Logo_Img">
+                                                    选择多文件
+                                                </button>
+                                                <table class="layui-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>文件名</th>
+                                                        <th>大小</th>
+                                                        <th>状态</th>
+                                                        <th>操作</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="Upload_Logo_Btn"></tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                       class="wenzhang mat10 mab10">
+                                    <tr>
+                                        <td align="right" width="150">商品详情：</td>
+                                        <td>
+                                            <div class="layui-upload">
+                                                <button type="button" class="layui-btn layui-btn-normal" id="Upload_Album_Img">
+                                                    选择多文件
+                                                </button>
+                                                <table class="layui-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>文件名</th>
+                                                        <th>大小</th>
+                                                        <th>状态</th>
+                                                        <th>操作</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="Upload_Album_Btn"></tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="center mat20 mab20">
+                                <!--提交上传图片-->
+                                <input type="button" value="提 交" class="tjbtn" id="AddProductBtn"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

@@ -1,0 +1,215 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<div class="m_info">
+    <div class="productinfo_main mat30">
+        <div class="left">
+            <div class="face_box">
+                <img src="__UPIMG__/products/product_logo/{$productData.product_logo}"
+                     onclick="return openImg('.face_box')" id="imgFace" class="img_pro_head"
+                     alt="{$productData.product_name}">
+            </div>
+        </div>
+        <div class="right">
+            <p class="title">
+                {$productData.product_name}
+            </p>
+            <div class="price_box">
+                <div class="price"><i>￥</i><span class="now_price" data-price="{$productData.product_money}">{$productData.product_money}</span></div>
+                <div class="fr mar10">
+                    <div class="mark"></div>
+                    <p class="sales">交易成功：<i>{$productData.product_sellnum}</i></p>
+                </div>
+            </div>
+            <div class="sku_box mat10">
+                <div class="postage">
+                    <span class="tit">邮费</span>
+                    {eq name="$productData.product_wlmoney" value="0"}
+                    <span class="js_thispostage postage_val">配送至&nbsp;<span class="cityjson"></span>&nbsp;包邮</span>
+                    {else/}
+                    <span class="js_thispostage postage_val">配送至&nbsp;<span class="cityjson"></span>&nbsp; ￥{$productData.product_wlmoney}</span>
+                    {/eq}
+                </div>
+                {neq name="$productData.product_point" value="0"}
+                <div class="sku">
+                    <span class="tit" style="line-height: 26px">奖励</span>
+                    <span class="postage_val">
+                        可获得 <span class="cred fonsize14" id="product_point" data-point="{$productData.product_point}">{$productData.product_point}</span> 积分
+                    </span>
+                </div>
+                {/neq}
+                {volist name="$productData.product_rule" id="ruleArr"}
+                <div class="sku">
+                    <span class="tit">{$ruleArr.name}</span>
+                    <div class="sku_list">
+                        <ul class="sku_size_ul">
+                            {volist name="proData" id="proData"}
+                            <li><a data-id="{$proData.id}" data-num="{$proData.product_num}" data-price="{$proData.product_money}"
+                                   id="skusize_{$proData.id}">{$proData.product_rule_name}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                {/volist}
+            </div>
+            <div class="stock_box">
+                <span class="tit">数量</span>
+                <div class="buycount">
+                    <div class="sel_count fl buy_count">
+                        <a class="reduce no text_icon" style="user-select:none;">-</a>
+                        <input type="text" value="1" id="product_num" class="midd" maxlength="6">
+                        <a class="add text_icon" style="user-select:none;">+</a>
+                    </div>
+                    <span class="fl f12 mat5 mal10">件（库存
+                        <i class="this_stock" data-num="{$productData.product_num}">{$productData.product_num}</i>
+                        件）</span>
+                </div>
+            </div>
+            <div class="buybtn" data-state="{$user_checkguest}">
+                {if condition="$productData.product_num eq 0"}
+                <div class="jiagwc_1"><i></i>已售罄</div>
+                {elseif condition="$productData.product_state eq 2"/}
+                <div class="jiagwc_1"><i></i>商品已下架</div>
+                {else /}
+                <a class="gobuy js_gobuy" href="javascript:buy_btn('buy', '{$productData.id}');">立即剁手</a>
+                <a class="addcart js_inscart" href="javascript:buy_btn('add', '{$productData.id}');"><i></i>加入购物车</a>
+                {/if}
+            </div>
+            <div class="save_line">
+                <a class="pro_save fl mar20 js_save" data-id="{$productData.id}" data-countNum="{$productData.product_commentnum}" {if condition="$User"}data-status="1"{/if}>
+                    <i class="layui-icon layui-icon-rate"></i>
+                    <span class="text">种草</span>
+                    （<span class="count">{$productData.product_collectnum}</span>人已种草）
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="productinfo_desc">
+        <div class="shop_left mat10">
+            <div class="shop_left_type">
+                <p class="title fixed">商品分类</p>
+                <div class="shop_left_typelist">
+                    <ul>
+                        <li>
+                            <a href="/product" class="active">全部商品({$countProducts})</a>
+                        </li>
+                        {foreach name="NormalCategory" item="FirstCategory"}
+                        <li>
+                            <a href="/product/{$FirstCategory.id}" target="_blank" class="">{$FirstCategory.name}({$FirstCategory.id|countProductsByCategoryId})</a>
+                            <div class="small">
+                                {volist name="$FirstCategory['list']" id="SecondaryCategory" offset="1"}
+                                <a href="/product/{$SecondaryCategory.id}" target="_blank">
+                                    {$SecondaryCategory.name}({$SecondaryCategory.id|countProductsByCategoryId})
+                                </a>
+                                {/volist}
+                            </div>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="right layui-tab">
+            <div class="title_box">
+                <div class="title">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">
+                            <a data-tab="info"><i></i>商品详情</a>
+                        </li>
+                        <li>
+                            <a data-tab="comm"><i></i>累计评论<span class="font_red mal5 js_commcount">{$count}</span></a>
+                        </li>
+                        <li>
+                            <a data-tab="server"><i></i>商家服务</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="desc_box layui-tab-content">
+                <div class="descinfo layui-tab-item layui-show">
+                    <p class="productinfo_desc_tit">
+                        <i class="layui-icon layui-icon-chart"></i>
+                        商品描述
+                        <span class="line"></span>
+                    </p>
+                    <div class="text">
+                        如图
+                    </div>
+                    <p class="productinfo_desc_tit">
+                        <i class="layui-icon layui-icon-chart"></i>
+                        商品展示<span class="line"></span>
+                    </p>
+                    <div class="piclist">
+                        {volist name="productImg" id="productImg"}
+                        <img src="__UPIMG__/products/product_album/{$productImg}" onclick="return openImg('.piclist')">
+                        {/volist}
+                    </div>
+                </div>
+                <div class="desccomm layui-tab-item">
+                    <ul class="js_commlist">
+                        {volist name="comment" id="comment"}
+                        <li>
+                            <div class="user">
+                                <a target="_blank">
+                                    <img src="__UPIMG__/user/logo/{$comment['user_logo']}" alt="" class="face_m">
+                                </a>
+                                <a target="_blank" class="fonsize12 mat5">{$comment['user_name']}</a>
+                            </div>
+                            <div class="info">
+                                <div>
+                                    <p>{$comment['comment_text']}</p>
+                                </div>
+                                <div class="pic">
+                                    <div class="pic_list commClickPic">
+                                        <a class="mal5">
+                                            {$comment['comment_img']|getCommentImg}
+                                            <!--<img src="https://pic.hanfugou.com/pc/2019/1/23/6/bffd09fa9f4d4bd2b706c093f9083601.jpg_50x50.jpg"-->
+                                                 <!--data-src="https://pic.hanfugou.com/pc/2019/1/23/6/bffd09fa9f4d4bd2b706c093f9083601.jpg_700x.jpg"-->
+                                                 <!--alt=""  onclick="return openImg('.pic_list')">-->
+                                        </a>
+                                    </div>
+                                </div>
+                                <p class="font_gray fonsize12 mat5">{$comment['create_time']}&nbsp;&nbsp;&nbsp;
+                                    {volist name="$comment['product_rule']" id="or_rule"}{$or_rule['name']}：{$or_rule['value']}{/volist}
+                            </div>
+                        </li>
+                        {/volist}
+                    </ul>
+                    <p class="js_commpage page"></p>
+                </div>
+                <div class="descserver layui-tab-item">
+                    <div class="m20">
+                        <p class="productinfo_desc_tit">
+                            <i class="layui-icon layui-icon-chart"></i>
+                            售后保障服务
+                        </p>
+                        <p>
+                            在收到货物并且没有确认收货的前提下，如有商品质量问题、描述不符或未收到货等，您有权申请退款或退货，来回邮费由卖家承担。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="pro_other_more">
+                <p class="productinfo_desc_tit">
+                    <i class="layui-icon layui-icon-chart"></i>
+                    瞅了又瞅
+                </p>
+                <div class="first_three_product_list">
+                    <dl>
+                        <a href="/product/37035?from=shoplist" target="_blank">
+                            <img src="https://pic.hanfugou.com/web/2019/2/1/20/682502c75f7744029d1edf0d7e6ff83f.jpg_250x250.jpg"
+                                 alt="">
+                        </a>
+                        <dd>
+                            <p><i class="buy">￥280.00</i></p>
+                            <p class="pname"><a href="/product/37035?from=shoplist" target="_blank">【凤鸾仙】梨花渡原创汉服女中国风配襦裙广袖超仙汉服绣花大袖衫</a>
+                            </p>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--包含footer文件-->
+{include file="public/footer" /}

@@ -1,0 +1,159 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-home"></i>
+              </span>
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                  <span></span>Overview
+                  <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                </li>              </ul>
+            </nav>
+          </div>
+          <div class="row">
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-danger card-img-holder text-white">
+                <div class="card-body">
+                  <img src="__STATIC__/admin/Index/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                  <h4 class="font-weight-normal mb-3">当月营业额
+                    <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                  </h4>
+                  <h2 class="mb-5">¥ {eq name="$Sales['account']" value=""}0{else /}{$Sales['account']}{/eq}</h2>
+                  <!--<h6 class="card-text">Increased by 60%</h6>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-info card-img-holder text-white">
+                <div class="card-body">
+                  <img src="__STATIC__/admin/Index/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>                  
+                  <h4 class="font-weight-normal mb-3">当月订单量
+                    <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                  </h4>
+                  <h2 class="mb-5">{$Sales['number']}</h2>
+                  <!--<h6 class="card-text">Decreased by 10%</h6>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-success card-img-holder text-white">
+                <div class="card-body">
+                  <img src="__STATIC__/admin/Index/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>                                    
+                  <h4 class="font-weight-normal mb-3">当月注册用户
+                    <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                  </h4>
+                  <h2 class="mb-5">{$countUser}</h2>
+                  <!--<h6 class="card-text">Increased by 5%</h6>-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">当月消费排行榜</h4>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>
+                            排行榜
+                          </th>
+                          <th>
+                            用户名
+                          </th>
+                          <th>
+                            消费次数
+                          </th>
+                          <th>
+                            消费金额(元)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {volist name="M_user" id="vo"}
+                        <tr>
+                          <td>
+                            <span class="rank_num{$i}">{$i}</span>
+                          </td>
+                          <td>
+                            <img src="__UPIMG__/user/logo/{$vo.user_logo}" class="mr-2" alt="image">
+                            {$vo.user_name}
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-success" style="font-size: 18px">{$vo.order_num}</label>
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-success" style="font-size: 18px">{$vo.user_money_cost}</label>
+                          </td>
+                        </tr>
+                      {/volist}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">当月热销商品</h4>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>
+                            排行榜
+                          </th>
+                          <th>
+                            商品名称
+                          </th>
+                          <th>
+                            销售数量
+                          </th>
+                          <th>
+                            销售金额(元)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {volist name="O_product" id="p_vo"}
+                        <tr>
+                          <td>
+                            <span class="rank_num{$i}">{$i}</span>
+                          </td>
+                          <td>
+                            <img src="__UPIMG__/products/product_logo/{$p_vo.product_logo}" class="mr-2" alt="image">
+                            {$p_vo.product_name}
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-success" style="font-size: 18px">{$p_vo.o_num}</label>
+
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-success" style="font-size: 18px">{$p_vo.o_money}</label>
+                          </td>
+                        </tr>
+                      {/volist}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+<!--包含footer文件-->
+{include file="public/footer" /}

@@ -1,0 +1,65 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="now">
+                        <a class="sel" href="javascript:void(0)">资金明细（{$count}）<i></i></a>
+                    </div>
+                    <div class="search">
+                        <form method="get">
+                            <input type="hidden" name="mod" value="money">
+                            用户名：
+                            <input type="text" name="user_name" class="inputtext inputtext_100"/>
+                            <select name="type" class="selectmini">
+                                <option value="" href="javascript:void(0);">= 资金类型 =</option>
+                                <option value="add" href="?mod=money&amp;type=add">1)系统充值</option>
+                                <option value="del" href="?mod=money&amp;type=del">2)系统扣除</option>
+                                <option value="back" href="?mod=money&amp;type=back">3)系统退还</option>
+                                <option value="order_pay" href="?mod=money&amp;type=order_pay">4)订单支付</option>
+
+                            </select>
+                            <input type="submit" value="搜索" class="input_btn">
+                        </form>
+                    </div>
+                    <div class="right_main">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                            <tr>
+                                <th class="bgtt" width="180">交易日期</th>
+                                <th class="bgtt" width="180">用户名</th>
+                                <th class="bgtt" width="100">交易类型</th>
+                                <th class="bgtt" width="100">增加(元)</th>
+                                <th class="bgtt" width="100">减少(元)</th>
+                                <th class="bgtt" width="100">结余(元)</th>
+                                <th class="bgtt">备注</th>
+                            </tr>
+                            {volist name="moneylog" id="vo"}
+                            <tr>
+                                <td class="num">{$vo.create_time|isNow}</td>
+                                <td>{$vo.user_email}</td>
+                                <td>{$vo.moneylog_type|switchLogType}</td>
+                                <td><span class="num strong cgreen">+{$vo.moneylog_in}</span></td>
+                                <td><span class="num strong cred">-{$vo.moneylog_out}</span></td>
+                                <td><span class="num"> {$vo.moneylog_now}</span></td>
+                                <td class="aleft">{$vo.moneylog_text}</td>
+                            </tr>
+                            {/volist}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--包含footer文件-->
+    {include file="public/footer" /}
+    <script type="text/javascript">
+        $(function(){
+            $("select").change(function(){
+                window.location.href = $(this).find("option:selected").attr("href");
+            })
+        })
+    </script>

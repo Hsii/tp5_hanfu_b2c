@@ -1,0 +1,50 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="now">
+                        <a class="sel" href="javascript:void(0)">规格列表（{$count}）<i></i></a>
+                        <a href="javascript:void(0)" id="fabu" class="add">
+                            <i class="layui-icon layui-icon-add-1"></i>添加规格
+                        </a>
+                    </div>
+                        <div class="right_main">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                <tr>
+                                    <th class="bgtt" width="50">ID号</th>
+                                    <th class="bgtt aleft" width="180" style="padding-left:30px">规格名称</th>
+                                    <th class="bgtt">规格选项</th>
+                                    <th class="bgtt" width="170">操作</th>
+                                </tr>
+                                {foreach name="ruleData" item="vo"}
+                                <tr>
+                                    <td style="background-color: rgb(255, 255, 255);" id="{$vo.id}">{$vo.id}</td>
+                                    <td class="aleft"
+                                        style="padding-left: 30px; background-color: rgb(255, 255, 255);">
+                                        {$vo.rule_name}
+                                        <span class="corg">[{$vo.rule_memo}]</span>
+                                    </td>
+                                    <td style="background-color: rgb(255, 255, 255);">
+                                        {foreach name="$vo['nature']" item="value"}
+                                        <span class="rule_id mal5">{$value.name}</span>
+                                        {/foreach}
+                                    </td>
+                                    <td style="background-color: rgb(255, 255, 255);">
+                                        <a href="javascript:void(0)" class="rule_edit btn_edit">修改</a>
+                                        <a href="javascript:void(0)" class="rule_del btn_del">删除</a>
+                                    </td>
+                                </tr>
+                                {/foreach}
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--包含footer文件-->
+    {include file="public/footer" /}

@@ -1,0 +1,186 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a class="sel" href="javascript:void(0)">订单详情<i></i></a>
+                        </div>
+                        <div class="right_main">
+                            <div class="huiyuan_main" style="padding:0 35px 20px;">
+                                <div class="liucheng mat20">订单状态</div>
+                                <table class="order_view_bak mat10" width="100%" cellspacing="0" cellpadding="0"
+                                       border="0">
+                                    <tbody>
+                                    <tr>
+                                        <td class="c888" width="100" align="right">订单编号：</td>
+                                        <td>{$order['order_id']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">当前状态：</td>
+                                        <td>
+                                            <span class="mar20"><span class="corg">
+                                                {switch name="$order['order_state']"}
+                                                    {case value="wpay"}等待付款{/case}
+                                                    {case value="wsend"}等待发货{/case}
+                                                    {case value="wget"}已发货{/case}
+                                                    {case value="success"}交易完成{/case}
+                                                    {case value="close"}交易关闭{/case}
+                                                {/switch}
+                                            </span></span>
+                                            {switch name="$order['order_state']"}
+                                            {case value="wpay"}
+                                            <a class="tag_org mar10" disabled style="cursor: no-drop" href="#">等待付款</a>
+                                            <a class="tag_gray mar10"
+                                               href="order_address?mod=order&amp;act=address&amp;id={$order['order_id']}"
+                                               onclick="return pe_dialog(this, '修改收货信息', 600, 450, 'order_address')">修改地址</a>
+                                            <a class="tag_gray c999" href="order_close?mod=order&act=close&id={$order['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            {/case}
+                                            {case value="wsend"}
+                                            <a class="tag_blue" href="order_send?act=send&id={$order['order_id']}" onclick="return pe_dialog(this, '填写发货信息', 600, 450, 'order_send')">发 货</a>
+                                            <a class="tag_gray mar10"
+                                               href="order_address?mod=order&amp;act=address&amp;id={$order['order_id']}"
+                                               onclick="return pe_dialog(this, '修改收货信息', 600, 450, 'order_address')">修改地址</a>
+                                            {/case}
+                                            {case value="wget"}
+                                            <a class="tag_green" href="#" onclick="return lay_cfone(this,'saveOrderState?mod=order&act=success&id={$order["order_id"]}', '买家已收到商品')">确认收货</a>
+                                            <a class="tag_gray c999" href="order_close?mod=order&act=close&id={$order['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            {/case}
+                                            {case value="success"}
+                                            <span class="cgreen">交易完成</span>
+                                            {/case}
+                                            {case value="close"}
+                                            <del class="c999">交易关闭</del>
+                                            {/case}
+                                            {/switch}
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="shixian mat20"></div>
+                                <div class="liucheng mat20">收货信息</div>
+                                <table class="order_view_bak mat10" width="100%" cellspacing="0" cellpadding="0"
+                                       border="0">
+                                    <tbody>
+                                    <tr>
+                                        <td class="c888" width="100" align="right">用户帐号：</td>
+                                        <td>{$user['user_name']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">姓　　名：</td>
+                                        <td>{$order['user_tname']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">手机号码：</td>
+                                        <td>{$order['user_phone']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">收货地址：</td>
+                                        <td>{$order['user_address']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">订单备注：</td>
+                                        <td>{$order['order_text']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">快递信息：</td>
+                                        <td>{$order['order_wl_name']}：{$order['order_wl_id']}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="shixian mat20"></div>
+                                <div class="liucheng mat20">订单信息</div>
+                                <table class="order_view_bak mat10" width="100%" cellspacing="0" cellpadding="0"
+                                       border="0">
+                                    <tbody>
+                                    <tr>
+                                        <td class="c888" width="100" align="right">下单时间：</td>
+                                        <td>{eq name="$order['order_atime']" value="0"}--{else /}{$order['order_atime']|TimeStamp}{/eq}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">付款时间：</td>
+                                        <td>{eq name="$order['order_ptime']" value="0"}--{else /}{$order['order_ptime']|TimeStamp}{/eq}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">发货时间：</td>
+                                        <td>{eq name="$order['order_stime']" value="0"}--{else /}{$order['order_stime']|TimeStamp}{/eq}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="c888" align="right">付款方式：</td>
+                                        <td>余额支付</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="shixian mat20"></div>
+                                <div class="liucheng mat20">商品清单</div>
+                                <table class="order_view_list mat20" width="100%" cellspacing="0" cellpadding="0"
+                                       border="0">
+                                    <tr>
+                                        <td class="bgtt1" colspan="3" width="" align="center">商品名称</td>
+                                        <td class="bgtt1" width="90" align="center">单价(元)</td>
+                                        <td class="bgtt1" width="90" align="center">数量</td>
+                                        <td class="bgtt1" width="150" align="center">商品优惠</td>
+                                        <td class="bgtt1" width="110" align="center">小计(元)</td>
+                                    </tr>
+                                    {volist name="orderdata" id="vo"}
+                                    <tr>
+                                        <td style="border-right:0;width:60px">
+                                            <a href="http://58.87.89.241/detail/{$vo.product_id}" target="_blank" >
+                                            <img
+                                                src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                                                class="imgbg" width="50" height="50"></a></td>
+                                        <td style="border-left:0;border-right:0;text-align:left;">
+                                            <a href="" title="{$vo.product_name}"
+                                               target="_blank" class="cblue dd_name">{$vo.product_name}</a>
+                                            <p class="c888 mat5">{$vo.product_rule|getUnserialize}</p>
+                                        </td>
+                                        <td style="border-left:0;width:80px;">
+                                        </td>
+                                        <td>¥ <span class="num">{$vo.product_money}</span></td>
+                                        <td><span class="num">{$vo.product_num}</span></td>
+                                        <td>-</td>
+                                        <td>¥ <span class="num">{$vo['product_money'] * $vo['product_num']}</span></td>
+                                    </tr>
+                                    {/volist}
+                                </table>
+                                <div class="dingdan_jiesuan"
+                                     style="padding:10px; line-height:30px; font-family:微软雅黑; font-size:14px;">
+                                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                        <tr>
+                                            <td>商品金额：</td>
+                                            <td width="100">¥ {$order['order_money']}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>运费：</td>
+                                            <td>¥ {$order['order_wl_money']}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>积分抵扣：</td>
+                                            <td>¥ {$order['order_point_money']}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>应付金额：</td>
+                                            <td class="font16 cred strong">¥ {$order['order_paid_money']}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

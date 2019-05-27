@@ -1,0 +1,136 @@
+<!--包含头部文件-->
+{include file="index@public/s_nav" /}
+<!--包含列表-->
+{include file="public/main_left" /}
+
+<div class="fr huiyuan_main">
+    <div class="order_view_tt mat10">订单状态</div>
+    <table class="order_view mat10" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+            <td class="c888" width="80" align="right">订单编号：</td>
+            <td>{$order['order_id']}</td>
+        </tr>
+        <tr>
+            <td class="c888" align="right">当前状态：</td>
+            <td>
+                <span class="mar20">{$order['order_state']|choiceOrderState}</span>
+            </td>
+        </tr>
+        {eq name="$order['order_state']" value="close"}
+        <tr>
+            <td class="c888" align="right">关闭说明：</td>
+            <td>{$order['order_closetext']}</td>
+        </tr>
+        {/eq}
+        </tbody></table>
+    <div class="shixian mat20"></div>
+    <div class="order_view_tt mat20">收货信息</div>
+    <table class="order_view mat10" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+            <td class="c888" width="80" align="right">姓　　名：</td>
+            <td>{$order['user_tname']}</td>
+        </tr>
+        <tr>
+            <td class="c888" align="right">手机号码：</td>
+            <td>{$order['user_phone']}</td>
+        </tr>
+        <tr>
+            <td class="c888" align="right">收货地址：</td>
+            <td>{$order['user_address']}</td>
+        </tr>
+        <tr>
+            <td class="c888" align="right">买家留言：</td>
+            <td>{$order['order_text']}</td>
+        </tr>
+        <tr>
+            <td class="c888" align="right">快递信息：</td>
+            <td>{neq name="$order['order_wl_id']" value="0"}
+                {$order['order_wl_name']}：{$order['order_wl_id']}
+                {else /}
+                --
+                {/neq}
+            </td>
+        </tr>
+        </tbody></table>
+    <div class="shixian mat20"></div>
+    <div class="order_view_tt mat20">订单信息</div>
+    <table class="order_view mat10" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+            <td class="c888" width="80" align="right">下单时间：</td>
+            <td>{$order['order_atime']|TimeStamp}</td>
+        </tr>
+        <tr>
+            <td class="c888" align="right">付款时间：</td>
+            <td>{neq name="$order['order_ptime']" value="0"}
+                {$order['order_ptime']|TimeStamp}
+                {else /}
+                --
+                {/neq}
+            </td>
+        </tr>
+        <tr>
+            <td class="c888" align="right">发货时间：</td>
+            <td>{neq name="$order['order_stime']" value="0"}
+                {$order['order_stime']|TimeStamp}
+                {else /}
+                --
+                {/neq}
+            </td>
+        </tr>
+        <tr>
+            <td class="c888" width="80" align="right">付款方式：</td>
+            <td>余额支付</td>
+        </tr>
+        </tbody></table>
+    <div class="shixian mat20"></div>
+    <div class="order_view_tt mat20">商品清单</div>
+    <table class="order_view_list mat20" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+            <td class="bgtt1" colspan="3">商品信息</td>
+            <td class="bgtt1" width="100">单价</td>
+            <td class="bgtt1" width="100">数量</td>
+            <td class="bgtt1" width="150">商品优惠</td>
+            <td class="bgtt1" width="100">小计</td>
+        </tr>
+        {volist name="$order['orderdata']" id="vo"}
+        <tr>
+            <td style="border-right:0;width:60px">
+                <a href="http://58.87.89.241//detail/{$vo['product_id']}" class="dingdan_img">
+                <img src="__UPIMG__/products/product_logo/{$vo['product_logo']}">
+                </a>
+            </td>
+            <td style="border-left:0;border-right:0;text-align:left;">
+                <a href="http://58.87.89.241//detail/{$vo['product_id']}" target="_blank" class="dd_name">{$vo['product_name']}</a>
+                <p class="c888 mat5">{$vo['product_rule']|getUnserialize}</p>
+            </td>
+            <td style="border-left:0;width:80px">
+            </td>
+            <td><span class="font13">¥{$vo['product_money']}</span></td>
+            <td><span class="font13">{$vo['product_num']}</span></td>
+            <td>-</td>
+            <td><span class="font13">¥{$vo['product_money'] * $vo['product_num']}</span></td>
+        </tr>
+        {/volist}
+        </tbody></table>
+    <div class="dingdan_jiesuan">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody><tr>
+                <td>商品金额：</td>
+                <td width="100">¥ {$order['order_money']}</td>
+            </tr>
+            <tr>
+                <td>运　　费：</td>
+                <td>¥ {$order['order_wl_money']}</td>
+            </tr>
+            <tr>
+                <td>实付金额：</td>
+                <td class="font16 cred strong">¥ {$order['order_paid_money']}</td>
+            </tr>
+            </tbody></table>
+        <div class="clear"></div>
+    </div>
+</div>
+</div>
+
+<!--包含头部文件-->
+{include file="index@public/footer" /}

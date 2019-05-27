@@ -1,0 +1,36 @@
+<table class="wenzhang mat20" width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td width="150" align="right">积分功能：</td>
+		<td>
+			<label style="margin-right:20px">
+				<input type="radio" name="info[point_state]" value="1"
+					   {if condition="$info['point_state']['setting_value'] eq 1"}checked{/if}
+				>  开启</label>
+			<label style="margin-right:20px"><input type="radio" name="info[point_state]" value="0"
+						{if condition="$info['point_state']['setting_value'] eq 0"}checked{/if}
+				> 关闭</label>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">注册赠送：</td>
+		<td><input type="text" name="info[point_reg]" value="{$info['point_reg']['setting_value']}" class="inputall input100"> 积分
+		</td>
+	</tr>
+	<tr>
+		<td align="right">评价赠送：</td>
+		<td><input type="text" name="info[point_comment]" value="{$info['point_comment']['setting_value']}"
+				   class="inputall input100"> 积分
+		</td>
+	</tr>
+	<tr>
+		<td align="right">积分抵现：</td>
+		<td><input type="text" name="info[point_money]" value="{$info['point_money']['setting_value']}" class="inputall input100">
+			积分 = 1元 <span class="c888">(用户在结算时可以用积分抵减现金)</span></td>
+	</tr>
+	<!--<tr>-->
+		<!--<td></td>-->
+		<!--<td>-->
+			<!--<input type="submit" value="提&nbsp;交" class="tjbtn">-->
+		<!--</td>-->
+	<!--</tr>-->
+</table>

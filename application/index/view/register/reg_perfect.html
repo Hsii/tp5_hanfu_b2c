@@ -1,0 +1,77 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+
+<div class="reg_main">
+    <div class="main_number">
+        <i class="line line_one line_active"></i>
+        <div class="num">
+            <i class="bg_red">1</i>
+            <p class="text">填写注册信息</p>
+        </div>
+        <div class="num">
+            <i class="bg_red">2</i>
+            <p class="text">确认注册信息</p>
+        </div>
+        <i class="line line_two line_active"></i>
+        <div class="num">
+            <i class="bg_red">3</i>
+            <p class="text">完善个人信息</p>
+        </div>
+    </div>
+    <div class="reg_data reg_perfect">
+        <div class="form">
+            <div class="line">
+                <span class="key">昵称</span>
+                <div class="value">
+                    <input type="text" id="info[user_name]" required lay-verify="required"
+                           class="inputall input200" placeholder="请输入昵称">
+                    <span></span>
+                </div>
+            </div>
+            <div class="line">
+                <span class="key">头像</span>
+                <div class="value">
+                    <p class="mab5" id="upload-userlogo-preview"></p>
+                    <button type="button" class="layui-btn" id="upload-userlogo">图片上传</button>
+                </div>
+            </div>
+            <div class="line">
+                <span class="key">性别</span>
+                <div class="value">
+                    <span>
+                        <input type="radio" name="info[user_sex]" value="女" title="女" checked>
+                        <i class="layui-icon layui-icon-female"></i>
+                    </span>
+                    <span><input type="radio" name="info[user_sex]" value="男" title="男">
+                        <i class="layui-icon layui-icon-male"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="line">
+                <span class="key">支付密码</span>
+                <div class="value">
+                    <input type="password" id="info[user_paypw]" required lay-verify="required"
+                           class="inputall input200" placeholder="请输入支付密码">
+                    <span></span>
+                </div>
+            </div>
+            <div class="line">
+                <span class="key"></span>
+                <div class="value">
+                    <input type="hidden" id="reg_perfect_id" data-id="{$RegData.id}">
+                    <input type="hidden" id="reg_perfect_code" data-code="{$RegData.code}">
+                    <input type="submit" class="tjbtn btn_perfect" value="完善信息">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--包含footer文件-->
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function () {
+        $('.reg_main').css('min-height','484px');
+    });
+</script>

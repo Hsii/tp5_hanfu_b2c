@@ -1,0 +1,85 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now" id="navitem">
+                            <a class="sel" href="javascript:void(0)">所有评价（{$count}）<i></i></a>
+                        </div>
+                        <form method="post" id="form">
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="50">ID号</th>
+                                        <th class="bgtt">评价内容</th>
+                                        <th class="bgtt" width="150">评价用户</th>
+                                        <th class="bgtt" colspan="2">商品信息</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    <!--do something-->
+                                    {foreach name="comment" item="vo"}
+                                    <tr>
+                                        <td id="{$vo['comment_id']}">
+                                            {$vo['comment_id']}
+                                        </td>
+                                        <td class="fl" valign="top">
+                                            <p style="text-align: left">{$vo['comment_text']}</p>
+                                            <div class="font12 cbbb">{$vo['create_time']}
+                                                <span class="mal20">{$vo['comment_star'],12|pe_comment}</span>
+                                                {neq name="$vo['comment_img']" value=''"}
+                                                <span class="mal20">{$vo['comment_img']|getCommentImg}</span>
+                                                {/neq}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img src="__UPIMG__/user/logo/{$vo['user_logo']}" style="width:40px">
+                                            <p class="mat2">
+                                                {$vo['user_name']}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <a href="http://58.87.89.241/detail/{$vo['product_id']}" target="_blank">
+                                                <img src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                                                     width="40" height="40" class="imgbg"/>
+                                            </a>
+                                        </td>
+                                        <td class="aleft">
+                                            <a href="http://58.87.89.241/detail/{$vo['product_id']}" target="_blank">
+                                                {$vo['product_name']}
+                                        </td>
+                                        <td style="background-color: rgb(255, 255, 255);">
+                                            <a href="javascript:void(0)" class="comment_del btn_del"
+                                               data-id="{$vo['comment_id']}">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                    <!-- end -->
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}
+    <script>
+        $('.comment_del').click(function () {
+            pe_submit("delComment?id=" + $(this).attr('data-id'), function (json) {
+                if (json.result) {
+                    pe_tip(json.show);
+                    window.location.reload();
+                } else {
+                    pe_tip(json.show);
+                }
+            });
+        });
+    </script>

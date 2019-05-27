@@ -1,0 +1,70 @@
+<div class="footer pad0">
+    <!--<div class="w1100 pat10">-->
+        <!--<hr class="layui-bg-gray">-->
+    <!--</div>-->
+    <div class="layui-footer">
+        <p>
+            <a href="{:url('index/copyright/index')}" target="_blank">关于我们</a>
+            <i>|</i>
+            <a href="{:url('index/copyright/disclaimer')}" target="_blank">用户协议</a>
+            <i>|</i>
+            <a href="{:url('index/copyright/helper')}" target="_blank">新手指南</a>
+            <i>|</i>
+            <a href="/copyright/?action=cooperation" target="_blank">商务合作</a>
+            <i>|</i>
+            <a href="http://58.87.89.241/" target="_blank"> 汉服商城</a>
+        </p>
+        <p class="copyright">
+            <a class="mar20">
+                <i class="layui-icon layui-icon-website" style="font-size: 15px; color: #9AC0CD;"></i>
+                {$info['web_copyright']['setting_value']}
+            </a>
+            <a>
+                Hand-crafted &amp; made with
+                <i class="mdi mdi-heart text-danger"></i>
+
+            </a>
+        </p>
+    </div>
+    <div class="placed_top" >
+        <a href="javascript:void(0)" id="GoTop">
+            <img src="__STATIC__/index/image/top.png"></a>
+    </div>
+    <div class="celan" {eq name="$cartNum" value="0"}hidden{/eq}>
+        <a href="{:url('index/cart/')}" target="_blank" style="margin-top:90px;">
+            <div class="cl_sl js_cartnum">{$cartNum}</div>
+            <div class="ico_gwc"><i></i></div>
+            <div class="fonsize14 mat5">购<br>物<br>车</div>
+        </a>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/common/js/global.js"></script>
+<script type="text/javascript" src="__STATIC__/index/js/common.js"></script>
+<script type="text/javascript" src="__STATIC__/index/js/{$controller}.js"></script>
+<!-- End custom js for this page-->
+<script>
+    $(function(){
+        $('.placed_top').hide();
+        $("#GoTop img").mouseover(function(){
+            $("#GoTop img").css("border","2px solid #EE5C42");
+            $("#GoTop img").attr("src","__STATIC__/index/image/top_EE5C42.png");
+        });
+        $("#GoTop img").mouseout(function(){
+            $("#GoTop img").css("border","2px solid #8a8a8a");
+            $("#GoTop img").attr("src","__STATIC__/index/image/top.png");
+        });
+        $(window).scroll(function(){
+             if($(this).scrollTop() > 300){
+                $('.placed_top').fadeIn();
+             }else{
+                 $('.placed_top').fadeOut();
+             }
+        });
+        $("#GoTop img").click(function () {
+            $('html ,body').animate({scrollTop: 0}, 300);
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,778 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now" id="navitem">
+                            <a class="sel" href="javascript:void(0)">全部订单（{$count[0]}）<i></i></a>
+                            <a href="javascript:void(0)">等待付款（{$count[1]}）<i></i></a>
+                            <a href="javascript:void(0)">等待发货（{$count[2]}）<i></i></a>
+                            <a href="javascript:void(0)">已经发货（{$count[3]}）<i></i></a>
+                            <a href="javascript:void(0)">交易完成（{$count[4]}）<i></i></a>
+                            <a href="javascript:void(0)">交易关闭（{$count[5]}）<i></i></a>
+                        </div>
+                        <div id="form">
+                            <div class="right_main">
+                                <div class="search">
+                                    <form method="get">
+                                        订单编号：<input type="text" name="id" value=""
+                                                    class="inputtext input150 mar5 hei30"/>
+                                        姓名：<input type="text" name="user_tname" value=""
+                                                  class="inputtext input80 mar5"/>
+                                        帐号：<input type="text" name="user_name" value="{$_g_user_name}"
+                                                  class="inputtext input80 mar5"/>
+                                        下单时间：<input type="text" name="date1" value=""
+                                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                                    class="Wdate inputtext" style="width:90px;height:30px;"/>
+                                        至 <input type="text" name="date2" value=""
+                                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputtext"
+                                                 style="width:90px;height:30px;"/>
+                                        <input type="submit" value="搜索" class="input_btn"/>
+                                        <input type="button" value="导出" class="input_btn" id="excel_btn"/>
+                                    </form>
+                                </div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt">商品信息</th>
+                                        <th class="bgtt" width="111">实付款</th>
+                                        <th class="bgtt" width="211">收货信息</th>
+                                        <th class="bgtt" width="91">支付/发货</th>
+                                        <th class="bgtt" width="91">状态</th>
+                                        <th class="bgtt" width="91">操作</th>
+                                    </tr>
+                                </table>
+                                {volist name="order[0]" id="vo"}
+                                <div class="hy_ordertw c666 mat10">
+                                    订单编号：<span class="num mar60">{$vo.order_id}</span>
+                                    下单时间：<span class="num">{$vo.order_atime|TimeStamp}</span>
+                                </div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hy_orderlist">
+                                    <tr>
+                                        <td class="aleft" style="border-left:0;padding:8px 10px;">
+                                            {volist name="$vo.orderdata" id="orderdata"}
+                                            <div class="dingdan_list">
+                                                <table width="100%" class="dd_tb1">
+                                                    <tr>
+                                                        <td width="50">
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" target="_blank">
+                                                                <img src="__UPIMG__/products/product_logo/{$orderdata.product_logo}" width="40" height="40" class="imgbg"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" title="" target="_blank" class="cblue dd_name">
+                                                                {$orderdata.product_name}
+                                                            </a>
+                                                            <p class="c999">
+                                                                {$orderdata.product_rule|getUnserialize}
+                                                            </p>
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                            <span class="num">{$orderdata['product_money']}</span>(×{$orderdata['product_num']})
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            {/volist}
+                                        </td>
+                                        <td width="110">
+                                            <p class="corg num strong">{$vo['order_paid_money']}</p>
+                                            <p class="c999">（含运费：{$vo['order_wl_money']}）</p>
+                                            <p class="c999">余额支付</p>
+                                        </td>
+                                        <td width="210" class="aleft" valign="top" style="color:#555;padding-left:10px">
+                                            <p>姓名：{$vo['user_tname']}
+                                                <span class="c888 mal5">（{$vo['user_phone']}）</span>
+                                            </p>
+                                            <p>地址：{$vo['user_address']}</p>
+                                            <p>留言：<span class="c888">{$vo['order_text']}</span></p>
+                                        </td>
+                                        <td width="90">
+                                            <img src="__STATIC__/admin/images/fu_{$vo['order_pstate']}.png"
+                                                 title="{$vo['order_ptime']|TimeStamp}"/>
+                                            <img src="__STATIC__/admin/images/fa_{$vo['order_sstate']}.png"
+                                                 title="{$vo['order_stime']|TimeStamp}"/>
+                                            <p><a href="order_print_product?act=product&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印发货单', 1000, 580)">[发货单]</a></p>
+                                            <p><a href="order_print_product?act=express&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印快递单', 1000, 580)">[快递单]</a></p>
+                                        </td>
+                                        <td width="90">
+                                            {$vo['order_state']|choiceOrderState}
+                                            <p class="mat5">
+                                                <a href="order_edit?id={$vo['order_id']}" target="_blank" class="c999">订单详情
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td width="90" style="border-right:0;">
+                                            {switch name="$vo['order_state']"}
+                                            {case value="wpay"}
+                                            <a class="tag_org" disabled style="cursor: no-drop">等待付款</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wsend"}
+                                            <a class="tag_blue" href="order_send?act=send&id={$vo['order_id']}" onclick="return pe_dialog(this, '填写发货信息', 600, 450, 'order_send')">发 货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wget"}
+                                            <a class="tag_green" href="#" onclick="return lay_cfone(this,'saveOrderState?mod=order&act=success&id={$vo["order_id"]}', '买家已收到商品')">确认收货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="success"}-{/case}
+                                            {case value="close"}
+                                            <a href="#" onclick="return lay_cfone(this, 'saveOrderState?mod=order&act=del&id={$vo["order_id"]}', '删除订单')" class="c999">删除</a>
+                                            {/case}
+                                            {/switch}
+                                        </td>
+                                    </tr>
+                                </table>
+                                {/volist}
+                            </div>
+                            <div class="right_main" style="display: none">
+                                <div class="search">
+                                    <form method="get">
+                                        订单编号：<input type="text" name="id" value=""
+                                                    class="inputtext input150 mar5 hei30"/>
+                                        姓名：<input type="text" name="user_tname" value=""
+                                                  class="inputtext input80 mar5"/>
+                                        帐号：<input type="text" name="user_name" value="{$_g_user_name}"
+                                                  class="inputtext input80 mar5"/>
+                                        下单时间：<input type="text" name="date1" value=""
+                                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                                    class="Wdate inputtext" style="width:90px;height:30px;"/>
+                                        至 <input type="text" name="date2" value=""
+                                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputtext"
+                                                 style="width:90px;height:30px;"/>
+                                        <input type="submit" value="搜索" class="input_btn"/>
+                                        <input type="button" value="导出" class="input_btn" id="excel_btn"/>
+                                    </form>
+                                </div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt">商品信息</th>
+                                        <th class="bgtt" width="111">实付款</th>
+                                        <th class="bgtt" width="211">收货信息</th>
+                                        <th class="bgtt" width="91">支付/发货</th>
+                                        <th class="bgtt" width="91">状态</th>
+                                        <th class="bgtt" width="91">操作</th>
+                                    </tr>
+                                </table>
+                                {volist name="order[1]" id="vo"}
+                                <div class="hy_ordertw c666 mat10">
+                                    订单编号：<span class="num mar60">{$vo.order_id}</span>
+                                    下单时间：<span class="num">{$vo.order_atime|TimeStamp}</span>
+                                </div>
+                                {volist name="$vo.orderdata" id="orderdata"}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hy_orderlist">
+                                    <tr>
+                                        <td class="aleft" style="border-left:0;padding:8px 10px;">
+                                            <div class="dingdan_list">
+                                                <table width="100%" class="dd_tb1">
+                                                    <tr>
+                                                        <td width="50">
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" target="_blank">
+                                                                <img src="__UPIMG__/products/product_logo/{$orderdata.product_logo}" width="40" height="40" class="imgbg"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" title="" target="_blank" class="cblue dd_name">
+                                                                {$orderdata.product_name}
+                                                            </a>
+                                                            <p class="c999">
+                                                                {$orderdata.product_rule|getUnserialize}
+                                                            </p>
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                            <span class="num">{$orderdata['product_money']}</span>(×{$orderdata['product_num']})
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td width="110">
+                                            <p class="corg num strong">{$vo['order_paid_money']}</p>
+                                            <p class="c999">（含运费：{$vo['order_wl_money']}）</p>
+                                            <p class="c999">余额支付</p>
+                                        </td>
+                                        <td width="210" class="aleft" valign="top" style="color:#555;padding-left:10px">
+                                            <p>姓名：{$vo['user_tname']}
+                                                <span class="c888 mal5">（{$vo['user_phone']}）</span>
+                                            </p>
+                                            <p>地址：{$vo['user_address']}</p>
+                                            <p>留言：<span class="c888">{$vo['order_text']}</span></p>
+                                        </td>
+                                        <td width="90">
+                                            <img src="__STATIC__/admin/images/fu_{$vo['order_pstate']}.png"
+                                                 title="{$vo['order_ptime']|TimeStamp}"/>
+                                            <img src="__STATIC__/admin/images/fa_{$vo['order_sstate']}.png"
+                                                 title="{$vo['order_stime']|TimeStamp}"/>
+                                            <p><a href="order_print_product?act=product&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印发货单', 1000, 580)">[发货单]</a></p>
+                                            <p><a href="order_print_product?act=express&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印快递单', 1000, 580)">[快递单]</a></p>
+                                        </td>
+                                        <td width="90">
+                                            {$vo['order_state']|choiceOrderState}
+                                            <p class="mat5">
+                                                <a href="order_edit?id={$vo['order_id']}" target="_blank" class="c999">订单详情
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td width="90" style="border-right:0;">
+                                            {switch name="$vo['order_state']"}
+                                            {case value="wpay"}
+                                            <a class="tag_org" disabled style="cursor: no-drop">等待付款</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wsend"}
+                                            <a class="tag_blue" href="order_send?act=send&id={$vo['order_id']}" onclick="return pe_dialog(this, '填写发货信息', 600, 450, 'order_send')">发 货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wget"}
+                                            <a class="tag_green" href="#" onclick="return lay_cfone(this,'saveOrderState?mod=order&act=success&id={$vo["order_id"]}', '买家已收到商品')">确认收货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="success"}-{/case}
+                                            {case value="close"}
+                                            <a href="#" onclick="return lay_cfone(this, 'saveOrderState?mod=order&act=del&id={$vo["order_id"]}', '删除订单')" class="c999">删除</a>
+                                            {/case}
+                                            {/switch}
+                                        </td>
+                                    </tr>
+                                </table>
+                                {/volist}
+                                {/volist}
+                            </div>
+                            <div class="right_main" style="display: none">
+                                <div class="search">
+                                    <form method="get">
+                                        订单编号：<input type="text" name="id" value=""
+                                                    class="inputtext input150 mar5 hei30"/>
+                                        姓名：<input type="text" name="user_tname" value=""
+                                                  class="inputtext input80 mar5"/>
+                                        帐号：<input type="text" name="user_name" value="{$_g_user_name}"
+                                                  class="inputtext input80 mar5"/>
+                                        下单时间：<input type="text" name="date1" value=""
+                                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                                    class="Wdate inputtext" style="width:90px;height:30px;"/>
+                                        至 <input type="text" name="date2" value=""
+                                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputtext"
+                                                 style="width:90px;height:30px;"/>
+                                        <input type="submit" value="搜索" class="input_btn"/>
+                                        <input type="button" value="导出" class="input_btn" id="excel_btn"/>
+                                    </form>
+                                </div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt">商品信息</th>
+                                        <th class="bgtt" width="111">实付款</th>
+                                        <th class="bgtt" width="211">收货信息</th>
+                                        <th class="bgtt" width="91">支付/发货</th>
+                                        <th class="bgtt" width="91">状态</th>
+                                        <th class="bgtt" width="91">操作</th>
+                                    </tr>
+                                </table>
+                                {volist name="order[2]" id="vo"}
+                                <div class="hy_ordertw c666 mat10">
+                                    订单编号：<span class="num mar60">{$vo.order_id}</span>
+                                    下单时间：<span class="num">{$vo.order_atime|TimeStamp}</span>
+                                </div>
+                                {volist name="$vo.orderdata" id="orderdata"}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hy_orderlist">
+                                    <tr>
+                                        <td class="aleft" style="border-left:0;padding:8px 10px;">
+                                            <div class="dingdan_list">
+                                                <table width="100%" class="dd_tb1">
+                                                    <tr>
+                                                        <td width="50">
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" target="_blank">
+                                                                <img src="__UPIMG__/products/product_logo/{$orderdata.product_logo}" width="40" height="40" class="imgbg"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" title="" target="_blank" class="cblue dd_name">
+                                                                {$orderdata.product_name}
+                                                            </a>
+                                                            <p class="c999">
+                                                                {$orderdata.product_rule|getUnserialize}
+                                                            </p>
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                            <span class="num">{$orderdata['product_money']}</span>(×{$orderdata['product_num']})
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td width="110">
+                                            <p class="corg num strong">{$vo['order_paid_money']}</p>
+                                            <p class="c999">（含运费：{$vo['order_wl_money']}）</p>
+                                            <p class="c999">余额支付</p>
+                                        </td>
+                                        <td width="210" class="aleft" valign="top" style="color:#555;padding-left:10px">
+                                            <p>姓名：{$vo['user_tname']}
+                                                <span class="c888 mal5">（{$vo['user_phone']}）</span>
+                                            </p>
+                                            <p>地址：{$vo['user_address']}</p>
+                                            <p>留言：<span class="c888">{$vo['order_text']}</span></p>
+                                        </td>
+                                        <td width="90">
+                                            <img src="__STATIC__/admin/images/fu_{$vo['order_pstate']}.png"
+                                                 title="{$vo['order_ptime']|TimeStamp}"/>
+                                            <img src="__STATIC__/admin/images/fa_{$vo['order_sstate']}.png"
+                                                 title="{$vo['order_stime']|TimeStamp}"/>
+                                            <p><a href="order_print_product?act=product&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印发货单', 1000, 580)">[发货单]</a></p>
+                                            <p><a href="order_print_product?act=express&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印快递单', 1000, 580)">[快递单]</a></p>
+                                        </td>
+                                        <td width="90">
+                                            {$vo['order_state']|choiceOrderState}
+                                            <p class="mat5">
+                                                <a href="order_edit?id={$vo['order_id']}" target="_blank" class="c999">订单详情
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td width="90" style="border-right:0;">
+                                            {switch name="$vo['order_state']"}
+                                            {case value="wpay"}
+                                            <a class="tag_org" disabled style="cursor: no-drop">等待付款</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wsend"}
+                                            <a class="tag_blue" href="order_send?act=send&id={$vo['order_id']}" onclick="return pe_dialog(this, '填写发货信息', 600, 450, 'order_send')">发 货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wget"}
+                                            <a class="tag_green" href="#" onclick="return lay_cfone(this,'saveOrderState?mod=order&act=success&id={$vo["order_id"]}', '买家已收到商品')">确认收货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="success"}-{/case}
+                                            {case value="close"}
+                                            <a href="#" onclick="return lay_cfone(this, 'saveOrderState?mod=order&act=del&id={$vo["order_id"]}', '删除订单')" class="c999">删除</a>
+                                            {/case}
+                                            {/switch}
+                                        </td>
+                                    </tr>
+                                </table>
+                                {/volist}
+                                {/volist}
+                            </div>
+                            <div class="right_main" style="display: none">
+                                <div class="search">
+                                    <form method="get">
+                                        订单编号：<input type="text" name="id" value=""
+                                                    class="inputtext input150 mar5 hei30"/>
+                                        姓名：<input type="text" name="user_tname" value=""
+                                                  class="inputtext input80 mar5"/>
+                                        帐号：<input type="text" name="user_name" value="{$_g_user_name}"
+                                                  class="inputtext input80 mar5"/>
+                                        下单时间：<input type="text" name="date1" value=""
+                                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                                    class="Wdate inputtext" style="width:90px;height:30px;"/>
+                                        至 <input type="text" name="date2" value=""
+                                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputtext"
+                                                 style="width:90px;height:30px;"/>
+                                        <input type="submit" value="搜索" class="input_btn"/>
+                                        <input type="button" value="导出" class="input_btn" id="excel_btn"/>
+                                    </form>
+                                </div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt">商品信息</th>
+                                        <th class="bgtt" width="111">实付款</th>
+                                        <th class="bgtt" width="211">收货信息</th>
+                                        <th class="bgtt" width="91">支付/发货</th>
+                                        <th class="bgtt" width="91">状态</th>
+                                        <th class="bgtt" width="91">操作</th>
+                                    </tr>
+                                </table>
+                                {volist name="order[3]" id="vo"}
+                                <div class="hy_ordertw c666 mat10">
+                                    订单编号：<span class="num mar60">{$vo.order_id}</span>
+                                    下单时间：<span class="num">{$vo.order_atime|TimeStamp}</span>
+                                </div>
+                                {volist name="$vo.orderdata" id="orderdata"}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hy_orderlist">
+                                    <tr>
+                                        <td class="aleft" style="border-left:0;padding:8px 10px;">
+                                            <div class="dingdan_list">
+                                                <table width="100%" class="dd_tb1">
+                                                    <tr>
+                                                        <td width="50">
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" target="_blank">
+                                                                <img src="__UPIMG__/products/product_logo/{$orderdata.product_logo}" width="40" height="40" class="imgbg"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" title="" target="_blank" class="cblue dd_name">
+                                                                {$orderdata.product_name}
+                                                            </a>
+                                                            <p class="c999">
+                                                                {$orderdata.product_rule|getUnserialize}
+                                                            </p>
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                            <span class="num">{$orderdata['product_money']}</span>(×{$orderdata['product_num']})
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td width="110">
+                                            <p class="corg num strong">{$vo['order_paid_money']}</p>
+                                            <p class="c999">（含运费：{$vo['order_wl_money']}）</p>
+                                            <p class="c999">余额支付</p>
+                                        </td>
+                                        <td width="210" class="aleft" valign="top" style="color:#555;padding-left:10px">
+                                            <p>姓名：{$vo['user_tname']}
+                                                <span class="c888 mal5">（{$vo['user_phone']}）</span>
+                                            </p>
+                                            <p>地址：{$vo['user_address']}</p>
+                                            <p>留言：<span class="c888">{$vo['order_text']}</span></p>
+                                        </td>
+                                        <td width="90">
+                                            <img src="__STATIC__/admin/images/fu_{$vo['order_pstate']}.png"
+                                                 title="{$vo['order_ptime']|TimeStamp}"/>
+                                            <img src="__STATIC__/admin/images/fa_{$vo['order_sstate']}.png"
+                                                 title="{$vo['order_stime']|TimeStamp}"/>
+                                            <p><a href="order_print_product?act=product&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印发货单', 1000, 580)">[发货单]</a></p>
+                                            <p><a href="order_print_product?act=express&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印快递单', 1000, 580)">[快递单]</a></p>
+                                        </td>
+                                        <td width="90">
+                                            {$vo['order_state']|choiceOrderState}
+                                            <p class="mat5">
+                                                <a href="order_edit?id={$vo['order_id']}" target="_blank" class="c999">订单详情
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td width="90" style="border-right:0;">
+                                            {switch name="$vo['order_state']"}
+                                            {case value="wpay"}
+                                            <a class="tag_org" disabled style="cursor: no-drop">等待付款</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wsend"}
+                                            <a class="tag_blue" href="order_send?act=send&id={$vo['order_id']}" onclick="return pe_dialog(this, '填写发货信息', 600, 450, 'order_send')">发 货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wget"}
+                                            <a class="tag_green" href="#" onclick="return lay_cfone(this,'saveOrderState?mod=order&act=success&id={$vo["order_id"]}', '买家已收到商品')">确认收货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="success"}-{/case}
+                                            {case value="close"}
+                                            <a href="#" onclick="return lay_cfone(this, 'saveOrderState?mod=order&act=del&id={$vo["order_id"]}', '删除订单')" class="c999">删除</a>
+                                            {/case}
+                                            {/switch}
+                                        </td>
+                                    </tr>
+                                </table>
+                                {/volist}
+                                {/volist}
+                            </div>
+                            <div class="right_main" style="display: none">
+                                <div class="search">
+                                    <form method="get">
+                                        订单编号：<input type="text" name="id" value=""
+                                                    class="inputtext input150 mar5 hei30"/>
+                                        姓名：<input type="text" name="user_tname" value=""
+                                                  class="inputtext input80 mar5"/>
+                                        帐号：<input type="text" name="user_name" value="{$_g_user_name}"
+                                                  class="inputtext input80 mar5"/>
+                                        下单时间：<input type="text" name="date1" value=""
+                                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                                    class="Wdate inputtext" style="width:90px;height:30px;"/>
+                                        至 <input type="text" name="date2" value=""
+                                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputtext"
+                                                 style="width:90px;height:30px;"/>
+                                        <input type="submit" value="搜索" class="input_btn"/>
+                                        <input type="button" value="导出" class="input_btn" id="excel_btn"/>
+                                    </form>
+                                </div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt">商品信息</th>
+                                        <th class="bgtt" width="111">实付款</th>
+                                        <th class="bgtt" width="211">收货信息</th>
+                                        <th class="bgtt" width="91">支付/发货</th>
+                                        <th class="bgtt" width="91">状态</th>
+                                        <th class="bgtt" width="91">操作</th>
+                                    </tr>
+                                </table>
+                                {volist name="order[4]" id="vo"}
+                                <div class="hy_ordertw c666 mat10">
+                                    订单编号：<span class="num mar60">{$vo.order_id}</span>
+                                    下单时间：<span class="num">{$vo.order_atime|TimeStamp}</span>
+                                </div>
+                                {volist name="$vo.orderdata" id="orderdata"}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hy_orderlist">
+                                    <tr>
+                                        <td class="aleft" style="border-left:0;padding:8px 10px;">
+                                            <div class="dingdan_list">
+                                                <table width="100%" class="dd_tb1">
+                                                    <tr>
+                                                        <td width="50">
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" target="_blank">
+                                                                <img src="__UPIMG__/products/product_logo/{$orderdata.product_logo}" width="40" height="40" class="imgbg"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" title="" target="_blank" class="cblue dd_name">
+                                                                {$orderdata.product_name}
+                                                            </a>
+                                                            <p class="c999">
+                                                                {$orderdata.product_rule|getUnserialize}
+                                                            </p>
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                            <span class="num">{$orderdata['product_money']}</span>(×{$orderdata['product_num']})
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td width="110">
+                                            <p class="corg num strong">{$vo['order_paid_money']}</p>
+                                            <p class="c999">（含运费：{$vo['order_wl_money']}）</p>
+                                            <p class="c999">余额支付</p>
+                                        </td>
+                                        <td width="210" class="aleft" valign="top" style="color:#555;padding-left:10px">
+                                            <p>姓名：{$vo['user_tname']}
+                                                <span class="c888 mal5">（{$vo['user_phone']}）</span>
+                                            </p>
+                                            <p>地址：{$vo['user_address']}</p>
+                                            <p>留言：<span class="c888">{$vo['order_text']}</span></p>
+                                        </td>
+                                        <td width="90">
+                                            <img src="__STATIC__/admin/images/fu_{$vo['order_pstate']}.png"
+                                                 title="{$vo['order_ptime']|TimeStamp}"/>
+                                            <img src="__STATIC__/admin/images/fa_{$vo['order_sstate']}.png"
+                                                 title="{$vo['order_stime']|TimeStamp}"/>
+                                            <p><a href="order_print_product?act=product&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印发货单', 1000, 580)">[发货单]</a></p>
+                                            <p><a href="order_print_product?act=express&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印快递单', 1000, 580)">[快递单]</a></p>
+                                        </td>
+                                        <td width="90">
+                                            {$vo['order_state']|choiceOrderState}
+                                            <p class="mat5">
+                                                <a href="order_edit?id={$vo['order_id']}" target="_blank" class="c999">订单详情
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td width="90" style="border-right:0;">
+                                            {switch name="$vo['order_state']"}
+                                            {case value="wpay"}
+                                            <a class="tag_org" disabled style="cursor: no-drop">等待付款</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wsend"}
+                                            <a class="tag_blue" href="order_send?act=send&id={$vo['order_id']}" onclick="return pe_dialog(this, '填写发货信息', 600, 450, 'order_send')">发 货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wget"}
+                                            <a class="tag_green" href="#" onclick="return lay_cfone(this,'saveOrderState?mod=order&act=success&id={$vo["order_id"]}', '买家已收到商品')">确认收货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="success"}-{/case}
+                                            {case value="close"}
+                                            <a href="#" onclick="return lay_cfone(this, 'saveOrderState?mod=order&act=del&id={$vo["order_id"]}', '删除订单')" class="c999">删除</a>
+                                            {/case}
+                                            {/switch}
+                                        </td>
+                                    </tr>
+                                </table>
+                                {/volist}
+                                {/volist}
+                            </div>
+                            <div class="right_main" style="display: none">
+                                <div class="search">
+                                    <form method="get">
+                                        订单编号：<input type="text" name="id" value=""
+                                                    class="inputtext input150 mar5 hei30"/>
+                                        姓名：<input type="text" name="user_tname" value=""
+                                                  class="inputtext input80 mar5"/>
+                                        帐号：<input type="text" name="user_name" value="{$_g_user_name}"
+                                                  class="inputtext input80 mar5"/>
+                                        下单时间：<input type="text" name="date1" value=""
+                                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                                    class="Wdate inputtext" style="width:90px;height:30px;"/>
+                                        至 <input type="text" name="date2" value=""
+                                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputtext"
+                                                 style="width:90px;height:30px;"/>
+                                        <input type="submit" value="搜索" class="input_btn"/>
+                                        <input type="button" value="导出" class="input_btn" id="excel_btn"/>
+                                    </form>
+                                </div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt">商品信息</th>
+                                        <th class="bgtt" width="111">实付款</th>
+                                        <th class="bgtt" width="211">收货信息</th>
+                                        <th class="bgtt" width="91">支付/发货</th>
+                                        <th class="bgtt" width="91">状态</th>
+                                        <th class="bgtt" width="91">操作</th>
+                                    </tr>
+                                </table>
+                                {volist name="order[5]" id="vo"}
+                                <div class="hy_ordertw c666 mat10">
+                                    订单编号：<span class="num mar60">{$vo.order_id}</span>
+                                    下单时间：<span class="num">{$vo.order_atime|TimeStamp}</span>
+                                </div>
+                                {volist name="$vo.orderdata" id="orderdata"}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hy_orderlist">
+                                    <tr>
+                                        <td class="aleft" style="border-left:0;padding:8px 10px;">
+                                            <div class="dingdan_list">
+                                                <table width="100%" class="dd_tb1">
+                                                    <tr>
+                                                        <td width="50">
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" target="_blank">
+                                                                <img src="__UPIMG__/products/product_logo/{$orderdata.product_logo}" width="40" height="40" class="imgbg"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="http://58.87.89.241/detail/{$orderdata.product_id}" title="" target="_blank" class="cblue dd_name">
+                                                                {$orderdata.product_name}
+                                                            </a>
+                                                            <p class="c999">
+                                                                {$orderdata.product_rule|getUnserialize}
+                                                            </p>
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                            <span class="num">{$orderdata['product_money']}</span>(×{$orderdata['product_num']})
+                                                        </td>
+                                                        <td width="70" class="aright">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td width="110">
+                                            <p class="corg num strong">{$vo['order_paid_money']}</p>
+                                            <p class="c999">（含运费：{$vo['order_wl_money']}）</p>
+                                            <p class="c999">余额支付</p>
+                                        </td>
+                                        <td width="210" class="aleft" valign="top" style="color:#555;padding-left:10px">
+                                            <p>姓名：{$vo['user_tname']}
+                                                <span class="c888 mal5">（{$vo['user_phone']}）</span>
+                                            </p>
+                                            <p>地址：{$vo['user_address']}</p>
+                                            <p>留言：<span class="c888">{$vo['order_text']}</span></p>
+                                        </td>
+                                        <td width="90">
+                                            <img src="__STATIC__/admin/images/fu_{$vo['order_pstate']}.png"
+                                                 title="{$vo['order_ptime']|TimeStamp}"/>
+                                            <img src="__STATIC__/admin/images/fa_{$vo['order_sstate']}.png"
+                                                 title="{$vo['order_stime']|TimeStamp}"/>
+                                            <p><a href="order_print_product?act=product&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印发货单', 1000, 580)">[发货单]</a></p>
+                                            <p><a href="order_print_product?act=express&id={$vo['order_id']}"
+                                                  class="c999"
+                                                  onclick="return pe_dialog(this, '打印快递单', 1000, 580)">[快递单]</a></p>
+                                        </td>
+                                        <td width="90">
+                                            {$vo['order_state']|choiceOrderState}
+                                            <p class="mat5">
+                                                <a href="order_edit?id={$vo['order_id']}" target="_blank" class="c999">订单详情
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td width="90" style="border-right:0;">
+                                            {switch name="$vo['order_state']"}
+                                            {case value="wpay"}
+                                            <a class="tag_org" disabled style="cursor: no-drop">等待付款</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wsend"}
+                                            <a class="tag_blue" href="order_send?act=send&id={$vo['order_id']}" onclick="return pe_dialog(this, '填写发货信息', 600, 450, 'order_send')">发 货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="wget"}
+                                            <a class="tag_green" href="#" onclick="return lay_cfone(this,'saveOrderState?mod=order&act=success&id={$vo["order_id"]}', '买家已收到商品')">确认收货</a>
+                                            <p class="mat5">
+                                                <a href="order_close?mod=order&act=close&id={$vo['order_id']}" onclick="return pe_dialog(this, '取消订单', 600, 450, 'order_close')" class="c999">取消订单</a>
+                                            </p>
+                                            {/case}
+                                            {case value="success"}-{/case}
+                                            {case value="close"}
+                                            <a href="#" onclick="return lay_cfone(this, 'saveOrderState?mod=order&act=del&id={$vo["order_id"]}', '删除订单')" class="c999">删除</a>
+                                            {/case}
+                                            {/switch}
+                                        </td>
+                                    </tr>
+                                </table>
+                                {/volist}
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- content-wrapper ends -->
+        <!--包含footer文件-->
+        {include file="public/footer" /}

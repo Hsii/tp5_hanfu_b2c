@@ -1,0 +1,53 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now" id="navitem_a">
+                            <a class="sel" href="javascript:void(0)">管理账号（{$count}）<i></i></a>
+                            <a href="{:url('staff/addstaff')}" id="fabu" class="add">
+                                <i class="layui-icon layui-icon-add-1"></i>添加账号
+                            </a>
+                        </div>
+                        <form method="post" id="form">
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="60">ID号</th>
+                                        <th class="bgtt">管理账号</th>
+                                        <th class="bgtt" width="180">上次登录</th>
+                                        <th class="bgtt" width="180">登陆ip</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    {foreach name="staff" item="vo"}
+                                    <tr>
+                                        <td id="{$vo['id']}">{$vo['id']}</td>
+                                        <td>{$vo['user_id']}</td>
+                                        <td>{neq name="$vo['last_login_time']" value="0"}{$vo['last_login_time']|TimeStamp}
+                                            {else /}--{/neq}
+                                        </td>
+                                        <td>{neq name="$vo['last_login_ip']" value=""}{$vo['last_login_ip']}
+                                            {else /}--{/neq}</td>
+                                        <td>
+                                            <a href="editstaff.html?id={$vo['user_id']}" class="banner_edit btn_edit">修改</a>
+                                            <a href="#" onclick="return lay_cfone(this,'saveStaff?act=del&id={$vo["user_id"]}', '你确定删除吗？')" class="banner_del btn_del">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

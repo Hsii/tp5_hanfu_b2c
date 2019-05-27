@@ -1,0 +1,434 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now" id="navitem">
+                            <a class="sel" href="javascript:void(0)" >出售中商品（{$count[0]}）<i></i></a>
+                            <a href="javascript:void(0)" >已下架商品（{$count[1]}）<i></i></a>
+                            <a href="javascript:void(0)" >缺货商品（{$count[2]}）<i></i></a>
+                            <a href="javascript:void(0)" >包邮商品（{$count[3]}）<i></i></a>
+                            <a href="javascript:void(0)" >推荐商品（{$count[4]}）<i></i></a>
+                            <a href="{:url('admin/product/product_add')}" class="add" id="fabu">
+                                <i class="layui-icon layui-icon-add-1" ></i>添加商品
+                            </a>
+                        </div>
+                        <form method="post" id="form">
+                            <div class="right_main" id="ProductTable[0]">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="20"><input type="checkbox" name="checkall"
+                                                                           onclick="pe_checkall(this, 'product_id')"/>
+                                        </th>
+                                        <th class="bgtt" width="50">ID号</th>
+                                        <th class="bgtt" width="50">编号</th>
+                                        <th class="bgtt" width="80">排序</th>
+                                        <th class="bgtt" width="40"></th>
+                                        <th class="bgtt">商品名称</th>
+                                        <th class="bgtt" width="90">分类</th>
+                                        <th class="bgtt" width="60">单价</th>
+                                        <th class="bgtt" width="50">库存</th>
+                                        <th class="bgtt" width="80">销量/评价</th>
+                                        <th class="bgtt" width="50">上架</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    <!--do something-->
+                                    {foreach name="productData[0]" item="vo"}
+                                    <tr >
+                                        <td><input type="checkbox" name="product_id[]" value="{$vo.id}"/></td>
+                                        <td style="background-color: rgb(255, 255, 255);" id="{$vo.id}">
+                                            {$vo.id}
+                                        </td>
+                                        <td>{$vo.product_mark}</td>
+                                        <td><input type="text" name="product_order[{$vo.id}]"
+                                                   value="{$vo.product_order}" class="inputtext input50 center"/>
+                                        </td>
+                                        <td>
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                <img src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                                                     width="40" height="40" class="imgbg"/>
+                                            </a>
+                                        </td>
+                                        <td class="aleft">
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                {$vo.product_name}
+                                                {if condition="$vo.product_istuijian == 1"}<span
+                                                        class="corg mal5">[荐]</span>{/if}</a>
+                                        </td>
+                                        <td>
+                                            {volist name="categoryData" id="category"}
+                                            {if condition="$category.id eq $vo.category_id"}{$category.name}{/if}
+                                            {/volist}
+                                        </td>
+                                        <td>{$vo.product_money}</td>
+                                        <td><span {if condition="$vo.product_num == 0" }class="cred strong" {/if}>
+                                            {$vo.product_num}</span></td>
+                                        <td>
+                                            <a href="javascript:void(0)">{$vo.product_sellnum}</a>
+                                            <span class="c999">/</span>
+                                            <a href="javascript:void(0)">{$vo.product_commentnum}</a>
+                                        </td>
+                                        <td>
+                                            {if condition="$vo.product_state eq 1"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','2')">
+                                                <img src="__STATIC__/admin/images/dui.png"/>
+                                            </a>
+                                            {elseif condition="$vo.product_state eq 2"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','1')">
+                                                <img src="__STATIC__/admin/images/cuo.png"/>
+                                            </a>
+                                            {/if}
+                                        </td>
+                                        <td style="background-color: rgb(255, 255, 255);">
+                                            <a href="{:url('admin/product/product_edit',['id' => $vo.id])}"
+                                               class="product_edit btn_edit">修改</a>
+                                            <a href="javascript:void(0)" class="product_del btn_del">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                    <!-- end -->
+                                </table>
+                            </div>
+                            <div class="right_main" style="display: none" id="ProductTable[1]">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="20"><input type="checkbox" name="checkall"
+                                                                           onclick="pe_checkall(this, 'product_id')"/>
+                                        </th>
+                                        <th class="bgtt" width="50">ID号</th>
+                                        <th class="bgtt" width="50">编号</th>
+                                        <th class="bgtt" width="80">排序</th>
+                                        <th class="bgtt" width="40"></th>
+                                        <th class="bgtt">商品名称</th>
+                                        <th class="bgtt" width="90">分类</th>
+                                        <th class="bgtt" width="60">单价</th>
+                                        <th class="bgtt" width="50">库存</th>
+                                        <th class="bgtt" width="80">销量/评价</th>
+                                        <th class="bgtt" width="50">上架</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    <!--do something-->
+                                    {foreach name="productData[1]" item="vo"}
+                                    <tr >
+                                        <td><input type="checkbox" name="product_id[]" value="{$vo.id}"/></td>
+                                        <td style="background-color: rgb(255, 255, 255);" id="{$vo.id}">
+                                            {$vo.id}
+                                        </td>
+                                        <td>{$vo.product_mark}</td>
+                                        <td><input type="text" name="product_order[{$vo.id}]"
+                                                   value="{$vo.product_order}" class="inputtext input50 center"/>
+                                        </td>
+                                        <td>
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                <img src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                                                     width="40" height="40" class="imgbg"/>
+                                            </a>
+                                        </td>
+                                        <td class="aleft">
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                            {$vo.product_name}{if
+                                                condition="$vo.product_istuijian == 1"}<span
+                                                        class="corg mal5">[荐]</span>{/if}</a>
+                                        </td>
+                                        <td>
+                                            {volist name="categoryData" id="category"}
+                                            {if condition="$category.id eq $vo.category_id"}{$category.name}{/if}
+                                            {/volist}
+                                        </td>
+                                        <td>{$vo.product_money}</td>
+                                        <td><span {if condition="$vo.product_num == 0" }class="cred strong" {/if}>
+                                            {$vo.product_num}</span></td>
+                                        <td>
+                                            <a href="javascript:void(0)">{$vo.product_sellnum}</a>
+                                            <span class="c999">/</span>
+                                            <a href="javascript:void(0)">{$vo.product_commentnum}</a>
+                                        </td>
+                                        <td>
+                                            {if condition="$vo.product_state eq 1"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','2')">
+                                                <img src="__STATIC__/admin/images/dui.png"/>
+                                            </a>
+                                            {elseif condition="$vo.product_state eq 2"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','1')">
+                                                <img src="__STATIC__/admin/images/cuo.png"/>
+                                            </a>
+                                            {/if}
+                                        </td>
+                                        <td style="background-color: rgb(255, 255, 255);">
+                                            <a href="{:url('admin/product/product_edit',['id' => $vo.id])}"
+                                               class="product_edit btn_edit">修改</a>
+                                            <a href="javascript:void(0)" class="product_del btn_del">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                    <!-- end -->
+                                </table>
+                            </div>
+                            <div class="right_main" style="display: none" id="ProductTable[2]">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="20"><input type="checkbox" name="checkall"
+                                                                           onclick="pe_checkall(this, 'product_id')"/>
+                                        </th>
+                                        <th class="bgtt" width="50">ID号</th>
+                                        <th class="bgtt" width="50">编号</th>
+                                        <th class="bgtt" width="80">排序</th>
+                                        <th class="bgtt" width="40"></th>
+                                        <th class="bgtt">商品名称</th>
+                                        <th class="bgtt" width="90">分类</th>
+                                        <th class="bgtt" width="60">单价</th>
+                                        <th class="bgtt" width="50">库存</th>
+                                        <th class="bgtt" width="80">销量/评价</th>
+                                        <th class="bgtt" width="50">上架</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    <!--do something-->
+                                    {foreach name="productData[2]" item="vo"}
+                                    <tr >
+                                        <td><input type="checkbox" name="product_id[]" value="{$vo.id}"/></td>
+                                        <td style="background-color: rgb(255, 255, 255);" id="{$vo.id}">
+                                            {$vo.id}
+                                        </td>
+                                        <td>{$vo.product_mark}</td>
+                                        <td><input type="text" name="product_order[{$vo.id}]"
+                                                   value="{$vo.product_order}" class="inputtext input50 center"/>
+                                        </td>
+                                        <td>
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                <img src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                                                     width="40" height="40" class="imgbg"/>
+                                            </a>
+                                        </td>
+                                        <td class="aleft">
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                            {$vo.product_name}{if
+                                                condition="$vo.product_istuijian == 1"}<span
+                                                        class="corg mal5">[荐]</span>{/if}</a>
+                                        </td>
+                                        <td>
+                                            {volist name="categoryData" id="category"}
+                                            {if condition="$category.id eq $vo.category_id"}{$category.name}{/if}
+                                            {/volist}
+                                        </td>
+                                        <td>{$vo.product_money}</td>
+                                        <td><span {if condition="$vo.product_num == 0" }class="cred strong" {/if}>
+                                            {$vo.product_num}</span></td>
+                                        <td>
+                                            <a href="javascript:void(0)">{$vo.product_sellnum}</a>
+                                            <span class="c999">/</span>
+                                            <a href="javascript:void(0)">{$vo.product_commentnum}</a>
+                                        </td>
+                                        <td>
+                                            {if condition="$vo.product_state eq 1"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','2')">
+                                                <img src="__STATIC__/admin/images/dui.png"/>
+                                            </a>
+                                            {elseif condition="$vo.product_state eq 2"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','1')">
+                                                <img src="__STATIC__/admin/images/cuo.png"/>
+                                            </a>
+                                            {/if}
+                                        </td>
+                                        <td style="background-color: rgb(255, 255, 255);">
+                                            <a href="{:url('admin/product/product_edit',['id' => $vo.id])}"
+                                               class="product_edit btn_edit">修改</a>
+                                            <a href="javascript:void(0)" class="product_del btn_del">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                    <!-- end -->
+                                </table>
+                            </div>
+                            <div class="right_main" style="display: none" id="ProductTable[3]">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="20"><input type="checkbox" name="checkall"
+                                                                           onclick="pe_checkall(this, 'product_id')"/>
+                                        </th>
+                                        <th class="bgtt" width="50">ID号</th>
+                                        <th class="bgtt" width="50">编号</th>
+                                        <th class="bgtt" width="80">排序</th>
+                                        <th class="bgtt" width="40"></th>
+                                        <th class="bgtt">商品名称</th>
+                                        <th class="bgtt" width="90">分类</th>
+                                        <th class="bgtt" width="60">单价</th>
+                                        <th class="bgtt" width="50">库存</th>
+                                        <th class="bgtt" width="80">销量/评价</th>
+                                        <th class="bgtt" width="50">上架</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    <!--do something-->
+                                    {foreach name="productData[3]" item="vo"}
+                                    <tr >
+                                        <td><input type="checkbox" name="product_id[]" value="{$vo.id}"/></td>
+                                        <td style="background-color: rgb(255, 255, 255);" id="{$vo.id}">
+                                            {$vo.id}
+                                        </td>
+                                        <td>{$vo.product_mark}</td>
+                                        <td><input type="text" name="product_order[{$vo.id}]"
+                                                   value="{$vo.product_order}" class="inputtext input50 center"/>
+                                        </td>
+                                        <td>
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                <img src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                                                     width="40" height="40" class="imgbg"/>
+                                            </a>
+                                        </td>
+                                        <td class="aleft">
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                {$vo.product_name}
+                                                {if condition="$vo.product_istuijian == 1"}<span
+                                                        class="corg mal5">[荐]</span>{/if}</a>
+                                        </td>
+                                        <td>
+                                            {volist name="categoryData" id="category"}
+                                            {if condition="$category.id eq $vo.category_id"}{$category.name}{/if}
+                                            {/volist}
+                                        </td>
+                                        <td>{$vo.product_money}</td>
+                                        <td><span {if condition="$vo.product_num == 0" }class="cred strong" {/if}>
+                                            {$vo.product_num}</span></td>
+                                        <td>
+                                            <a href="javascript:void(0)">{$vo.product_sellnum}</a>
+                                            <span class="c999">/</span>
+                                            <a href="javascript:void(0)">{$vo.product_commentnum}</a>
+                                        </td>
+                                        <td>
+                                            {if condition="$vo.product_state eq 1"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','2')">
+                                                <img src="__STATIC__/admin/images/dui.png"/>
+                                            </a>
+                                            {elseif condition="$vo.product_state eq 2"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','1')">
+                                                <img src="__STATIC__/admin/images/cuo.png"/>
+                                            </a>
+                                            {/if}
+                                        </td>
+                                        <td style="background-color: rgb(255, 255, 255);">
+                                            <a href="{:url('admin/product/product_edit',['id' => $vo.id])}"
+                                               class="product_edit btn_edit">修改</a>
+                                            <a href="javascript:void(0)" class="product_del btn_del">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                    <!-- end -->
+                                </table>
+                            </div>
+                            <div class="right_main" style="display: none" id="ProductTable[4]">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="20"><input type="checkbox" name="checkall"
+                                                                           onclick="pe_checkall(this, 'product_id')"/>
+                                        </th>
+                                        <th class="bgtt" width="50">ID号</th>
+                                        <th class="bgtt" width="50">编号</th>
+                                        <th class="bgtt" width="80">排序</th>
+                                        <th class="bgtt" width="40"></th>
+                                        <th class="bgtt">商品名称</th>
+                                        <th class="bgtt" width="90">分类</th>
+                                        <th class="bgtt" width="60">单价</th>
+                                        <th class="bgtt" width="50">库存</th>
+                                        <th class="bgtt" width="80">销量/评价</th>
+                                        <th class="bgtt" width="50">上架</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    <!--do something-->
+                                    {foreach name="productData[4]" item="vo"}
+                                    <tr >
+                                        <td><input type="checkbox" name="product_id[]" value="{$vo.id}"/></td>
+                                        <td style="background-color: rgb(255, 255, 255);" id="{$vo.id}">
+                                            {$vo.id}
+                                        </td>
+                                        <td>{$vo.product_mark}</td>
+                                        <td><input type="text" name="product_order[{$vo.id}]"
+                                                   value="{$vo.product_order}" class="inputtext input50 center"/>
+                                        </td>
+                                        <td>
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                <img src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                                                     width="40" height="40" class="imgbg"/>
+                                            </a>
+                                        </td>
+                                        <td class="aleft">
+                                            <a href="http://58.87.89.241/detail/{$vo.id}" target="_blank">
+                                                {$vo.product_name}
+                                                {if condition="$vo.product_istuijian == 1"}<span
+                                                        class="corg mal5">[荐]</span>{/if}</a>
+                                        </td>
+                                        <td>
+                                            {volist name="categoryData" id="category"}
+                                            {if condition="$category.id eq $vo.category_id"}{$category.name}{/if}
+                                            {/volist}
+                                        </td>
+                                        <td>{$vo.product_money}</td>
+                                        <td><span {if condition="$vo.product_num == 0" }class="cred strong" {/if}>
+                                            {$vo.product_num}</span></td>
+                                        <td>
+                                            <a href="javascript:void(0)">{$vo.product_sellnum}</a>
+                                            <span class="c999">/</span>
+                                            <a href="javascript:void(0)">{$vo.product_commentnum}</a>
+                                        </td>
+                                        <td>
+                                            {if condition="$vo.product_state eq 1"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','2')">
+                                                <img src="__STATIC__/admin/images/dui.png"/>
+                                            </a>
+                                            {elseif condition="$vo.product_state eq 2"}
+                                            <a href="javascript:void(0)"
+                                               onclick="return product_state(this,'{$vo.id}','1')">
+                                                <img src="__STATIC__/admin/images/cuo.png"/>
+                                            </a>
+                                            {/if}
+                                        </td>
+                                        <td style="background-color: rgb(255, 255, 255);">
+                                            <a href="{:url('admin/product/product_edit',['id' => $vo.id])}"
+                                               class="product_edit btn_edit">修改</a>
+                                            <a href="javascript:void(0)" class="product_del btn_del">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                    <!-- end -->
+                                </table>
+                            </div>
+                        </form>
+                        <div class="right_bottom">
+		                    <span class="fl mal10">
+                                <input type="checkbox" name="checkall" onclick="pe_checkall(this, 'product_id')"/>
+                                <button href="javascript:void(0)" id="product_allDel">批量删除</button>
+                                <button href="{:url('admin/product/saveProductOrder')}"
+                                        onclick="pe_doall(this,'form')" class="product_doall">更新排序</button>
+                                <button href="javascript:void(0)" id="product_allStateOn">批量上架</button>
+                                <button href="javascript:void(0)" id="product_allStateOff">批量下架</button>
+                                <button href="javascript:void(0)" id="product_allTuijianOn">批量推荐</button>
+                                <button href="javascript:void(0)" id="product_allTuijianOff">取消推荐</button>
+		                    </span>
+                            <span class="fr fenye"></span>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

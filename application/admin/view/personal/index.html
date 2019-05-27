@@ -1,0 +1,118 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">
+        个人信息
+      </h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{:url('index/index')}">主页</a></li>
+          <li class="breadcrumb-item active" aria-current="page">个人信息</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">基本信息</h4>
+            <form class="form-sample">
+              <div class="col-md-12">
+                <div class="nav-profile-image nav-profile-headimage form-group row layui-upload">
+                  <label class="col-sm-1 col-form-label">头&nbsp;&nbsp;&nbsp;像</label>
+                  <div class="layui-upload-list">
+                    <img src="{$userPersonal->headimage|headimg}" alt="profile" class="layui-upload-img" id="head-image">
+                    <input id="file_upload_image" name="image" type="hidden" multiple="true" value="">
+                  </div>
+                  <button type="button" class="layui-btn" id="btn-upload-headimg" style="margin: 40px 0 0 35px;">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">员工ID</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" value="{$user['usernameid']}" readonly="value"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">姓&nbsp;&nbsp;&nbsp;名</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" value="{$user['username']}" readonly="value"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">性&nbsp;&nbsp;&nbsp;别</label>
+                    <div class="col-sm-9">
+                      <select class="form-control" id="select_gender">
+                        {$userPersonal->gender|gender}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">手&nbsp;&nbsp;&nbsp;机</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="mobile" value="{$user['mobile']}" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">部&nbsp;&nbsp;&nbsp;门</label>
+                    <div class="col-sm-9">
+                      <select class="form-control" id="select_department">
+                        {volist name="$department" id="vo"}
+                          <option value="{$vo.id}" {if condition="$userPersonal.department_id eq $vo.id"} selected="selected"{/if}>{$vo.name}</option>
+                        {/volist}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">出生日期</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" placeholder="yyyy/mm/dd" id="birthdate" value="{$userPersonal->birthdate|birthdate}"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">状&nbsp;&nbsp;&nbsp;态</label>
+                    <div class="col-sm-5">
+                      <input class="form-control" placeholder="yyyy/mm/dd" value="{$user->status|status}" readonly="value"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button class="layui-btn" id="btn-staff-personal">更新信息</button>
+                  <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content-wrapper ends -->
+<!--包含footer文件-->
+{include file="public/footer" /}

@@ -1,0 +1,41 @@
+<!--包含头部文件-->
+{include file="index@public/s_nav" /}
+<!--包含列表-->
+{include file="public/main_left" /}
+
+<div class="fr huiyuan_main">
+    <div class="hy_tt">
+        <a href="javascript:;" class="sel">资金明细<span>({$count})</span><i></i>
+        </a>
+    </div>
+    <div class="hy_tablelist">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody><tr>
+                <th width="130">交易日期</th>
+                <th width="150">交易金额(元)</th>
+                <th width="150">结余</th>
+                <th>说明</th>
+            </tr>
+            {volist name="moneylog" id="vo"}
+            <tr>
+                <td>{$vo['create_time']}</td>
+                <td>
+                    {eq name="$vo['moneylog_in']" value="0"}
+                    <span class="c999">-{$vo['moneylog_out']}</span>
+                    {else /}
+                    <span class="cgreen">+{$vo['moneylog_in']}</span>
+                    {/eq}
+                </td>
+                <td><span class="c666">{$vo['moneylog_now']}</span></td>
+                <td class="aleft">{$vo['moneylog_text']}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="clear"></div>
+</div>
+
+<!--包含头部文件-->
+{include file="index@public/footer" /}

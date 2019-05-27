@@ -1,0 +1,57 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header"></div>
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="rule-body">
+            <div class="now" id="navitem_a">
+              <a class="sel" href="javascript:void(0)">文章列表（{$count}）<i></i></a>
+              <a href="/article/addArticle" id="fabu" class="add">
+                <i class="layui-icon layui-icon-add-1"></i>添加文章
+              </a>
+            </div>
+            <form method="post" id="form">
+              <div class="right_main">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                  <tr>
+                    <th class="bgtt" width="60">ID号</th>
+                    <th class="bgtt aleft">文章名称</th>
+                    <th class="bgtt" width="150">发布日期</th>
+                    <th class="bgtt" width="80">浏览量</th>
+                    <th class="bgtt" width="180">操作</th>
+                  </tr>
+                  {foreach name="article" item="vo"}
+                  <tr>
+                    <td id="{$vo['article_id']}">{$vo['article_id']}</td>
+                    <td><a href="http://58.87.89.241/articles/{$vo['article_id']}" target="_blank">{$vo['article_title']}</a></td>
+                    <td>{$vo['create_time']}</td>
+                    <td>{$vo['article_clicknum']}</td>
+                    <td>
+                      <a href="http://58.87.89.241/admin/article/editArticle.html?id={$vo['article_id']}" class="banner_edit btn_edit">修改</a>
+                      <a href="javascript:void(0)" onclick="return lay_cfone(this, 'http://58.87.89.241/admin/article/delArticle?id={$vo['article_id']}','删除此文章')" class="article_del btn_del">删除</a>
+                    </td>
+                  </tr>
+                  {/foreach}
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- content-wrapper ends -->
+  <!--包含footer文件-->
+  {include file="public/footer" /}
+  <script>
+    $(function () {
+        $('.article_del').click(function () {
+            pe_
+        });
+    });
+  </script>

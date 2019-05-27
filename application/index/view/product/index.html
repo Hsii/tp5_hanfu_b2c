@@ -1,0 +1,86 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<div class="m_info mat20">
+    <div class="product_typelist">
+        <div class="one">
+            <ul>
+                {foreach name="NormalCategory" item="FirstCategory"}
+                <li>
+                    <a class="big" href="http://58.87.89.241//product/{$FirstCategory.id}" data-id="{$FirstCategory.id}">
+                        {$FirstCategory.name}
+                        ：</a>
+                    <div class="item">
+                        {volist name="$FirstCategory['list']" id="SecondaryCategory" offset="1"}
+                        <a href="http://58.87.89.241//product/{$SecondaryCategory.id}" data-id="{$SecondaryCategory.id}">
+                            {$SecondaryCategory.name}
+                        </a>
+                        {/volist}
+                    </div>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+    <div id="screenIndex" class="product_tools">
+        <div class="fixedtop">
+            <div class="fixedtop_info">
+                <div class="item fl mal40 sc_order">
+                    <a class="active" data-order="new">最新</a>
+                    <a data-order="hot">人气</a>
+                    <a data-order="price0">价格↑</a>
+                    <a data-order="price1">价格↓</a>
+                </div>
+                <div class="item fl mal80 sc_price">
+                    价格区间：
+                    <a class="active">全部</a>
+                    <a data-price="0~99">0~99</a>
+                    <a data-price="100~399">100~399</a>
+                    <a data-price="400~899">400~899</a>
+                    <a data-price="900~1500">900~1500</a>
+                    <a data-price="1500++">1500++</a>
+                </div>
+                <div class="item fr mar40">
+                    <a class="fl diy_ck_s nowbuy">
+                        <i class="ck_nowbuy ck_icon"></i>
+                        现货
+                    </a>
+                    <a class="fl diy_ck_s freeship">
+                        <i class="ck_freeship ck_icon"></i>
+                        包邮
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <ul class="product_list">
+            {volist  name="productsItem" id="vo" empty="$empty"}
+            <li class="post">
+                <a href="/detail/{$vo.id}" target="_blank">
+                    <img src="__UPIMG__/products/product_logo/{$vo.product_logo}"
+                         alt="{$vo.product_name}">
+                </a>
+                <p class="price"><span class="buy">￥{$vo.product_money}</span></p>
+                <p class="name long_hide">
+                    <a href="/detail/{$vo.id}" target="_blank">{$vo.product_name}</a>
+                </p>
+                <p class="other">
+                    {$vo.product_wlmoney|isWuLiu}
+                </p>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+
+<!--包含footer文件-->
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function () {
+        var css = {
+            bottom: 0
+        };
+        $('.footer').css(css);
+        moveFixed('#screenIndex','ScreenIndexFix',400);
+    })
+</script>

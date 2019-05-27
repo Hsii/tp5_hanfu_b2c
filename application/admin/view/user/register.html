@@ -1,0 +1,22 @@
+<!--包含头部文件-->
+{include file="user/public/header" /}
+    <h1>欢迎新员工</h1>
+    <div>
+        <input type="text" placeholder="员工姓名" id="username" required lay-verify="required" autocomplete="on"/>
+    </div>
+    <div>
+        <input type="password" placeholder="请输入密码" id="password" required lay-verify="required|pass"/>
+    </div>
+    <div>
+        <input type="text" placeholder="email" id="email" required lay-verify="email" autocomplete="on"/>
+    </div>
+    <div>
+        <input type="text" placeholder="mobile" id="mobile" required lay-verify="phone" autocomplete="on"/>
+    </div>
+    <div>
+        <!-- <input type="submit" value="Log in" /> -->
+        <input type="submit" value="申请员工id" class="btn btn-primary lay-submit" lay-submit lay-filter="adminregister" id="js-btn-register"/>
+        <a href="{:url('user/login')}">登录</a>
+    </div>
+<!--包含footer文件-->
+{include file="user/public/footer" /}

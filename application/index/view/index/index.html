@@ -1,0 +1,56 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+
+<div class="layui-container pad0 w1100 banner mat20" {eq name="count" value="0"}hidden{/eq}>
+    <div class="layui-carousel grid-demo" id="bannerItem">
+        <div carousel-item>
+            {foreach name="banner" item="vo"}
+            <div>
+                <a href="{$vo.url}">
+                    {volist name="$vo.image" id="imgItem"}
+                    <img src="__UPIMG__/banners/{$vo.id}/{$imgItem['img_url']}">
+                    {/volist}
+                </a>
+            </div>
+            {/foreach}
+        </div>
+    </div>
+</div>
+<div class="layui-container pad0 w1100 layui-bulletin mat20" {if condition="$info['notice_state']['setting_value'] eq 0"}style="display: none;"{/if}>
+    <div class="layui-row layui-col-lg12 height60">
+        <div class="layui-col-lg10 layui-col-lg-offset1">
+            <div class="layui-col-lg2 layui-row-icon-tips">
+                <i class="layui-icon layui-icon-tips" style="font-size: 40px; color: #FF7256;"></i>
+            </div>
+            <div class="layui-col-lg10 layui-icon-tips-p">
+                <!-- 公告页面预留链接-->
+                <a href="#">
+                <marquee scrollamount="10" scrolldelay="1" direction="left" onMouseOut="this.start()" onMouseOver="this.stop()">
+                    {$info['notice_content']['setting_value']}
+                </marquee>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="def_product w1100">
+    <p class="title">本周热卖</p>
+    <div class="def_product_list">
+        <ul>
+            {foreach name="products" item="vo"}
+            <li>
+                <a href="/detail/{$vo.id}" target="_blank">
+                    <img src="__UPIMG__/products/product_logo/{$vo.product_logo}" alt="{$vo.product_name}">
+                </a>
+                <p class="price"><i>￥</i>{$vo.product_money}</p>
+                <p class="name">
+                    <a href="/detail/{$vo.id}" target="_blank">{$vo.product_name}</a>
+                </p>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+<!--包含footer文件-->
+{include file="public/footer" /}

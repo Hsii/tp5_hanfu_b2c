@@ -1,0 +1,76 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a class="sel" href="javascript:void(0)">修改帐号<i></i></a>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="right_main">
+                            <form method="post">
+                                <table class="wenzhang mat20 mab20" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody><tr>
+                                        <td width="150" align="right">管理帐号：</td>
+                                        <td>{$staff['user_id']}
+                                    </tr>
+                                    <tr>
+                                        <td align="right">登录密码：</td>
+                                        <td><input type="password" name="info[password]" class="inputall input200"> <span class="c888">如无需修改请留空</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">上次登录：</td>
+                                        <td>
+                                            {neq name="$staff['last_login_time']" value="0"}{$staff['last_login_time']|TimeStamp}
+                                            {else /}--{/neq}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            <input type="button" name="pesubmit" value="提 交" class="tjbtn">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- content-wrapper ends -->
+<!--包含footer文件-->
+{include file="public/footer" /}
+    <script type="text/javascript">
+        $(function(){
+            $(".tjbtn").click(function(){
+                $.ajax({
+                    url: 'saveStaff?act=edit',
+                    type: 'POST',
+                    dataType: 'json',
+                    async: true,
+                    data: {
+                        'user_id' : '{$staff['user_id']}',
+                        'password' :  $(" input[ name='info[password]' ] ").val()
+                    },
+                    success: function (data) {
+                        if (data.result) {
+                            pe_tip(data.show);
+                            window.location.href='index';
+                        }else{
+                            pe_tip(data.show);
+                            window.location.reload();
+                        }
+                    }
+                });
+                return false;
+            });
+        })
+    </script>

@@ -1,0 +1,78 @@
+<!--包含头部文件-->
+{include file="admin@public/header_dialog" /}
+<form method="post" id="form" autocomplete="off">
+    <div class="hy_tablelist" style="margin-top:0;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th width="300">商品详情</th>
+                <th width="360">评价内容</th>
+                <th></th>
+            </tr>
+            <tr>
+                {volist name="$order['orderdata']" id="orderdata"}
+                <td>
+                    <a href="http://58.87.89.241//detail/{$orderdata['product_id']}" class="dingdan_img"
+                       target="_blank">
+                        <img src="__UPIMG__/products/product_logo/{$orderdata['product_logo']}"
+                             style="width:100px;height:100px">
+                    </a>
+                    <p class="mat20"><a href="http://58.87.89.241//detail/{$orderdata['product_id']}" target="_blank"
+                                        class="cblue">{$orderdata['product_name']}</a></p>
+                </td>
+                <td valign="top">
+                    <textarea name="comment_text" style="width:348px;height:96px"
+                              placeholder="请填写评价内容"></textarea>
+                    <div class="mat20">
+                        <span class="fl">综合评分：</span>
+                        <span id="star_{$orderdata['orderdata_id']}" class="fr" style="margin-left:40px"></span>
+                        <span id="comment_star_show_{$orderdata['product_id']}" class="fl mal10 corg"></span>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="layui-upload fl mat20">
+                        <button type="button" class="layui-btn" id="Upload_Comment_Img"></button>
+                        <p class="Comment-preview fr mar10 mal10" id="upload-Comment-preview">
+                        </p>
+                    </div>
+                </td>
+                {/volist}
+            </tr>
+        </table>
+    </div>
+    <div class="mat20" style="text-align:center;">
+        <input type="button" value="提 交" class="tjbtn"/>
+    </div>
+</form>
+<link rel="stylesheet" href="__STATIC__/user/css/style.css">
+<script type="text/javascript" src="__STATIC__/user/js/common.js"></script>
+<script type="text/javascript" src="__STATIC__/common/raty/jquery.raty.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/formcheck.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#star_{$orderdata['orderdata_id']}").raty({
+            path: "__STATIC__/common/raty/images",
+            hints: ['很差', '较差', '一般', '满意', '很满意'],
+            score: 5,
+            click: function (score, evt) {
+                $("#comment_star_{$orderdata['orderdata_id']}").val(score);
+            }
+        });
+        $(".tjbtn").click(function(){
+            pe_submit("order_comment?order_id={$order['order_id']}&product_id={$orderdata['product_id']}&act=reviews", function(json){
+                if (json.result){
+                    pe_tip(json.show);
+                    window.parent.location.reload()
+                }else{
+                    pe_tip(json.show);
+                }
+            });
+        })
+    })
+</script>
+<style type="text/css">
+    .hy_tablelist td {
+        padding: 20px 8px;
+        border-bottom: 1px dashed #eaeaea
+    }
+</style>
+<!--包含footer文件-->
+{include file="admin@public/footer_dialog" /}

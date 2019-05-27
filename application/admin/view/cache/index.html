@@ -1,0 +1,58 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a class="sel" href="javascript:void(0)">缓存管理<i></i></a>
+                        </div>
+                        <form method="post" id="form">
+                            <div class="right_main">
+                                <div class="tixing corg">温馨提示：当您网站上的数据或网页显示异常时请执行更新缓存操作。</div>
+                                <table class="list mat10" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody><tr>
+                                        <th class="bgtt" width="150">缓存名称</th>
+                                        <th class="bgtt aleft">缓存说明</th>
+                                        <th class="bgtt" width="150">大小(KB)</th>
+                                        <th class="bgtt" width="70">操作</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: rgb(255, 255, 255);">数据缓存</td>
+                                        <td class="aleft" style="background-color: rgb(255, 255, 255);">网站数据显示错乱或不显示时，可尝试更新此项。</td>
+                                        <td class="num" style="background-color: rgb(255, 255, 255);">{}</td>
+                                        <td style="background-color: rgb(255, 255, 255);"><a href="" class="admin_edit">更新</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: rgb(255, 255, 255);">模板缓存</td>
+                                        <td class="aleft" style="background-color: rgb(255, 255, 255);">网站界面显示错乱或不显示时，可尝试更新此项。</td>
+                                        <td class="num" style="background-color: rgb(255, 255, 255);">{}</td>
+                                        <td style="background-color: rgb(255, 255, 255);"><a href="" class="admin_edit">更新</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: rgb(255, 255, 255);">图片缓存</td>
+                                        <td class="aleft" style="background-color: rgb(255, 255, 255);">图片缓存占用过多空间时，可更新此项。</td>
+                                        <td class="num" style="background-color: rgb(255, 255, 255);">{}</td>
+                                        <td style="background-color: rgb(255, 255, 255);"><a href="" class="admin_edit">更新</a></td>
+                                    </tr>
+                                    </tbody></table>
+                            </div>
+                        </form>
+
+                        <div class="right_bottom">
+                            <span class="fr fenye"></span>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

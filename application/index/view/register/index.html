@@ -1,0 +1,79 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+
+<div class="reg_main">
+    <div class="main_number">
+        <i class="line line_one"></i>
+        <div class="num">
+            <i class="bg_red">1</i>
+            <p class="text">填写注册信息</p>
+        </div>
+        <div class="num">
+            <i class="bg_gray">2</i>
+            <p class="text">确认注册信息</p>
+        </div>
+        <i class="line line_two"></i>
+        <div class="num">
+            <i class="bg_gray">3</i>
+            <p class="text">完善个人信息</p>
+        </div>
+    </div>
+    <div class="reg_data">
+        <div class="form">
+            <form class="layui-form" action="">
+                <div class="line">
+                    <span class="key">邮箱</span>
+                    <div class="value">
+                        <input type="text" id="info[user_email]" required lay-verify="required|email"
+                               class="inputall input200" placeholder="请输入Email">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="line">
+                    <span class="key">手机号</span>
+                    <div class="value">
+                        <input type="text" id="info[user_phone]" required lay-verify="required|phone"
+                               class="inputall input200" placeholder="请输入Phone">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="line">
+                    <span class="key">密码</span>
+                    <div class="value">
+                        <input type="password" id="info[user_password]" required lay-verify="required|pass" placeholder="请输入密码"
+                               class="inputall input200">
+                        <span class="describe">8到20个字符，不能含有特殊符号</span>
+                    </div>
+                </div>
+                <div class="line">
+                    <span class="key">确认密码</span>
+                    <div class="value">
+                        <input type="password" id="info[user_Repassword]" required lay-verify="required|repass"
+                               class="inputall input200" placeholder="请重复输入密码">
+                        <span class="describe">8到20个字符，不能含有特殊符号</span>
+                    </div>
+                </div>
+                <div class="line">
+                    <span class="key">&nbsp;</span>
+                    <div class="value">
+                        <input type="submit" class="tjbtn btn_register" lay-filter="btn_register" lay-submit
+                               value="提交注册">
+                        <span class="describe">
+                            <input type="checkbox" class="reg_ck_xieyi" required checked="checked" lay-verify="xieyi" lay-skin="primary">
+                            <a class="reg_xieyi" href="{:url('index/copyright/disclaimer')}" target="_blank">同意商城协议</a>
+                    </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--包含footer文件-->
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function () {
+        $('.reg_main').css('margin','40px auto');
+    });
+</script>

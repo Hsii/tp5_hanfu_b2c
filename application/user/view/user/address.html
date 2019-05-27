@@ -1,0 +1,45 @@
+<!--包含头部文件-->
+{include file="index@public/s_nav" /}
+<!--包含列表-->
+{include file="public/main_left" /}
+
+<div class="fr huiyuan_main">
+    <div class="hy_tt">
+        <a href="javascript:;" class="sel">收货地址<span>({$count})</span><i></i></a>
+        <a href="adduserress" class="fabu_btn">新增地址</a>
+        <div class="clear"></div>
+    </div>
+    <div class="hy_tablelist">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+                <th width="100">收货人</th>
+                <th width="120">手机号码</th>
+                <th>收货地址</th>
+                <th width="130">操作
+                </th>
+            </tr>
+            {volist name="address" id="vo"}
+            <tr>
+                <td>{$vo['user_tname']}</td>
+                <td>{$vo['user_phone']}</td>
+                <td class="aleft">
+                    {eq name="$vo['address_default']" value="1"}
+                    <span class="cred">[默认]</span>
+                    {/eq}
+                    {$vo['address_province'].$vo['address_city'].$vo['address_area'].$vo['address_text']}</td>
+                <td>
+                    <a href="editaddress?id={$vo['address_id']}" class="tag_gray mar5">修改</a>
+                    <a href="#" onclick="return lay_cfone(this, 'http://58.87.89.241//index/user/useraddress?mod=useraddr&act=del&id={$vo['address_id']}', '删除该地址')" class="tag_gray">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody></table>
+    </div>
+    <div class="fenye mat10"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<!--包含头部文件-->
+{include file="index@public/footer" /}

@@ -1,0 +1,68 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a class="sel" href="javascript:void(0)">分类列表（{$count}）<i></i></a>
+                            <a href="javascript:void(0)" id="fabu" class="add">
+                                <i class="layui-icon layui-icon-add-1"></i>添加分类
+                            </a>
+                        </div>
+                        <form method="post" id="form">
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                    <tr>
+                                        <th class="bgtt" width="20"><input type="checkbox" name="checkall"
+                                                                           onclick="pe_checkall(this, 'category_id')"/>
+                                        </th>
+                                        <th class="bgtt" width="60">ID号</th>
+                                        <th class="bgtt" width="80">排序</th>
+                                        <th class="bgtt" style="padding-left:30px">分类名称</th>
+                                        <th class="bgtt" width="180">操作</th>
+                                    </tr>
+                                    {foreach name="categoryData" item="vo"}
+                                    <tr>
+                                        <td><input type="checkbox" name="category_id[]" value="{$vo.id}"/></td>
+                                        <td id="{$vo.id}">{$vo.id}</td>
+                                        <td><input type="text" name="category_order[{$vo.id}]"
+                                                   value="{$vo.listorder}" class="inputtext input30 center"/></td>
+                                        <td class="aleft">
+                                            <a href="http://58.87.89.241/product/{$vo.id}" target="_blank">
+                                                {$vo.showname}</a>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="category_edit btn_edit">修改</a>
+                                            <a href="javascript:void(0)" class="category_del btn_del">删除</a>
+                                            <!--<a href="javascript:void(0)" class="category_dialog admin_btn">转移商品</a>-->
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </table>
+                            </div>
+                        </form>
+
+                    <div class="right_bottom">
+		                    <span class="fl mal10">
+                                <input type="checkbox" name="checkall" onclick="pe_checkall(this, 'category_id')"/>
+                                <button href="javascript:void(0)" id="category_cfall">批量删除</button>
+                                <button href="{:url('admin/category/SaveCategory')}"
+                                        onclick="pe_doall(this,'form')" class="category_doall">更新排序</button>
+		                    </span>
+                        <span class="fr fenye"></span>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- content-wrapper ends -->
+<!--包含footer文件-->
+{include file="public/footer" /}

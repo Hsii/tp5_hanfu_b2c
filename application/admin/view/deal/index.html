@@ -1,0 +1,79 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">
+                Details
+            </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{:url('index/index')}">主&nbsp;页</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Details&nbsp;Module</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div style="padding: 0 10px!important;">
+                <ul class="layui-nav layui-nav-tree" lay-filter="deal_nav"
+                    style="width: 130px!important;background-color: #E8E8E8;" lay-shrink="all">
+                    {volist name="$category" id="vo"}
+                    <li class="layui-nav-item">
+                        <a href="javascript:;"
+                           style='color:#363636!important;{if condition="$vo.isgender eq 2"}color:#FF6A6A!important;{/if}'
+                           id="{$vo.id}" data-id="{$vo.id}" class="getCategoryId">
+                            {$vo.name}
+                        </a>
+                        <dl class="layui-nav-child">
+                            {volist name="$subclass[$vo.id]" id="subvo"}
+                            {if condition="$subvo.name eq ''"}
+                            {else /}
+                            <dd><a href="javascript:;" id="{$vo.id},{$subvo.id}" class="getCategorSubclassyId" name="{$subvo.name}">{$subvo.name}</a></dd>
+                            {/if}
+                            {/volist}
+                        </dl>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+            <div class="card col-md-10 grid-margin" style="padding: 1rem;">
+                <div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Deal Module</h4>
+                            <p class="card-description">
+                                <span>商品详情</span>
+                                <button class="layui-btn" id="btn-category-subclass-deal-add" style="float: right;background-color:#FF6A6A;border-radius: 32px;margin-top: 0 !important;padding: 0 25px;">
+                                    <i class="layui-icon">&#xe608;</i> 添加
+                                </button>
+                            </p>
+                            <div class="row">
+                                <!-- 加载table表格-->
+                                <table class="layui-table subclass-deal-table" id="category_subclass-deal" lay-filter="category_subclass-deal"></table>
+                                <!-- 加载完毕 -->
+                                <script type="text/html" id="statusTpl">
+                                    <input type="checkbox" name="status" value="{{d.status}}" lay-skin="switch" lay-text="开启|关闭" lay-filter="statusDemo" {{ d.status == 1 ? 'checked' : '' }}>
+                                    <input type="hidden" id="DealId" value="{{d.id}}" lay-filter="statusDemo">
+                                </script>
+                                <script type="text/html" id="thumbnailTpl">
+                                    <div id="layer-photos-thumbanil">
+                                        <img src="/{{ d.thumbnail}}" style="height:31px;width:31px;cursor:pointer;" id="thumbnailShowImg">
+                                    </div>
+                                </script>
+                                <script type="text/html" id="DealDemo">
+                                    <a class="layui-btn layui-btn-xs" lay-event="Deal_show">查看属性</a>
+                                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteDeal">删除</a>
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <script src="__STATIC__/admin/js/addDeal.js"></script>
+    <!--包含footer文件-->
+    {include file="public/footer" /}

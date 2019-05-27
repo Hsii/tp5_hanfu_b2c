@@ -1,0 +1,51 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a class="sel" href="javascript:void(0)">添加文章<i></i></a>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="right_main">
+                            <form method="post">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang mat20">
+                                    <tr>
+                                        <td align="right" width="150">文章名称：</td>
+                                        <td><input type="text" name="info[article_title]" value="" class="inputall input500" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">文章详情：</td>
+                                        <td><textarea name="info[article_text]" id="editortext" style="width:760px;height:400px"></textarea></td>
+                                    </tr>
+                                </table>
+                                <div class="mat10 mab10">
+                                    <input type="submit" name="pesubmit" value="提 交" class="tjbtn" style="margin-left:435px" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- content-wrapper ends -->
+<!--包含footer文件-->
+{include file="public/footer" /}
+    <script type="text/javascript">
+        $(function(){
+            $(".tjbtn").click(function(){
+                if ($(":input[name='info[article_title]']").val() == '' || $("#editortext").val() == '') {
+                    pe_tip('内容必须完整');
+                    return false;
+                }
+                pe_tip('添加成功');
+                window.location.href='article/index';
+            })
+        })
+    </script>

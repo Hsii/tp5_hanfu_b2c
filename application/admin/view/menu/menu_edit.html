@@ -1,0 +1,66 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a href="javascript:;" class="sel">修改导航<i></i></a>
+                            <div class="clear"></div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" id="menu_edit">
+                            <div class="right_main">
+                                <table class="wenzhang mat20" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                        <td width="150" align="right">导航名称：</td>
+                                        <td><input type="text" name="info[menu_name]" value="{$vo.menu_name}" class="inputall input200"> <span class="c888">（如：套装）</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">链接地址：</td>
+                                        <td>
+                                            <select name="info[menu_type]" class="inputselect">
+                                                <option value="diy">自定义链接</option>
+                                                <option disabled="">==========分割线==========</option>
+                                                {volist name="category" id="categoryData"}
+                                                <option {if condition="$categoryData.name eq $vo.menu_name"}selected="selected"{/if} value="/product/{$categoryData.id}" url="/product/{$categoryData.id}">
+                                                [商品分类]{$categoryData.showname}
+                                                </option>
+                                                {/volist}
+                                                <option disabled="">==========分割线==========</option>
+                                            </select>
+                                            <input type="text" name="info[menu_url]" value="{$vo.menu_url}" class="inputall input400" disabled="disabled">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="150" align="right">打开方式：</td>
+                                        <td>
+                                            <label class="mar20"><input type="radio" name="info[menu_target]" value="1" class="inputfix" {if condition="$vo.menu_target eq 1"}checked="checked"{/if}> 新标签&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <label class="mar20"><input type="radio" name="info[menu_target]" value="0" class="inputfix" {if condition="$vo.menu_target eq 0"}checked="checked"{/if}> 当前页&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">显示顺序：</td>
+                                        <td><input type="text" name="info[menu_order]" value="{$vo.menu_order}" class="inputall input100"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            <input type="submit" value="提 交" class="tjbtn">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

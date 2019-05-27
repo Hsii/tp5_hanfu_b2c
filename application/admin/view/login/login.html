@@ -1,0 +1,14 @@
+<!--包含头部文件-->
+{include file="login/public/header" /}
+			<h1>后台管理系统</h1>
+			<div>
+				<input type="text" placeholder="登录账号"  required id="user_id" lay-verify="required|username"/>
+			</div>
+			<div>
+				<input type="password" placeholder="登陆密码"  required id="password" lay-verify="required|pass"/>
+			</div>
+			<div>
+				<input type="submit" value="登录" class="btn btn-primary lay-submit" lay-submit lay-filter="adminlogin" id="js-btn-login"/>
+			</div>
+<!--包含footer文件-->
+{include file="login/public/footer" /}

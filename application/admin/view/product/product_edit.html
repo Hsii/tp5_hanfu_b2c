@@ -1,0 +1,193 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a href="javascript:;" class="sel">修改商品<i></i></a>
+                            <div class="clear"></div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" id="form_edit">
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                       class="wenzhang mat20 mab20">
+                                    <input type="hidden" name="info[id]" value="{$productData.id}"/>
+                                    <input type="hidden" name="info[product_mark]" value="{$productData.product_mark}"/>
+                                    <tr>
+                                        <td align="right">商品名称：</td>
+                                        <td>
+                                            <input type="text" name="info[product_name]" value="{$productData.product_name}"
+                                                   class="inputall input600"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" width="150">商品分类：</td>
+                                        <td>
+                                            <select name="info[category_id]" class="inputselect" style="width:250px">
+                                                <option value="0">-- 商品分类 --</option>
+                                                {volist name="categoryData" id="vo"}
+                                                <option value="{$vo.id}" {if condition="$productData.category_id eq $vo.id"}selected="selected"{/if}>
+                                                    {$vo.showname}
+                                                </option>
+                                                {/volist}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">商品规格：</td>
+                                        <td style="padding: 3px 5px;">
+                                            <table width="30%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:;" class="admin_btn mar10" onclick="rule_open()">选择规格</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:;" class="admin_btn mar10" onclick="rule_close()">关闭规格</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr id="ruleData_list">
+                                        <td align="right"></td>
+                                        <td id="RuleTable">
+                                            <div id="RuleTableToggle" style="display: none;">
+                                                {foreach name="ruleData" id="ruleVo"}
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                                       class="wenzhang_bak mab10">
+                                                    <tr>
+                                                        <td class="bgtt SKU_TYPE" sku-type-name="{$ruleVo.rule_name}"
+                                                            propid="{$ruleVo.id}"
+                                                            style="padding-left:10px;height:20px;line-height:20px"
+                                                            width="150">{$ruleVo.id}) {$ruleVo.rule_name}
+                                                            <span class="cbbb mal5">[{$ruleVo.rule_memo}]</span>
+                                                        </td>
+                                                        <td>
+                                                            {foreach name="$ruleVo['nature']" item="value"}
+                                                            <label class="rule_id">
+                                                                <input type="checkbox" name="ruledata_id[]" propvalid="{$value.id}" value="{$value.name}" class="mar5 inputfix sku_value"/>
+                                                                {$value.name}<i></i>
+                                                            </label>
+                                                            {/foreach}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                {/foreach}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr id="rule_html" {empty name="$productData.product_rule"}style="display: none;"{/empty}>
+                                        <td align="right">规格信息：</td>
+                                        <td id="rule_list">
+                                            <div id="skuTable">
+                                                <table class="skuTable">
+                                                    <tr>
+                                                    {volist name="$productData.product_rule" id="RULE_DATA"}
+                                                    <th>
+                                                        {$RULE_DATA.name}
+                                                        <input type="hidden" name="rule_id[]" value="{$RULE_DATA.id}">
+                                                        <input type="hidden" name="rule_name[]" value="{$RULE_DATA.name}">
+                                                    </th>
+                                                    {/volist}
+                                                    <th>价格</th>
+                                                    <th>库存数</th>
+                                                    </tr>
+                                                    {volist name="proData" id="ProRuleData"}
+                                                    <tr class="sku_table_tr" propvalids="{$ProRuleData['product_rule_id']}" propvalnames="{$ProRuleData['product_rule_name']}">
+
+                                                            <input type="hidden" name="ruleDataNatureid[]" value="{$ProRuleData['product_rule_id']}">
+                                                            <input type="hidden" name="ruleDataNatureName[]" value="{$ProRuleData['product_rule_name']}">
+                                                        {volist name="$ProRuleData['product_rule_name_arr']" id="rule_name_arr"}
+                                                        <td>
+                                                            {$rule_name_arr}
+                                                        </td>
+                                                        {/volist}
+                                                        <td>
+                                                            <input type="text" name="product_money[]" class="setting_sku_price" value="{$ProRuleData['product_money']}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="product_num[]" class="setting_sku_price" value="{$ProRuleData['product_num']}">
+                                                        </td>
+                                                    </tr>
+                                                    {/volist}
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr id="base_html" {if condition="$productData.product_rule neq ''"}style="display: none;"{/if}>
+                                        <td align="right">商品价格：</td>
+                                        <td>
+                                            <input type="text" name="info[product_money]"
+                                                   value="{$productData.product_money}"
+                                                   class="inputall input100"/> <span class="c888">元</span></span>，
+                                            库存：<input type="text" name="info[product_num]"
+                                                      value="{$productData.product_num}" class="inputall input100"/> <span
+                                                class="c888">件</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">运　　费：</td>
+                                        <td><input type="text" name="info[product_wlmoney]"
+                                                   value="{$productData.product_wlmoney}"
+                                                   class="inputall input100"/> <span class="c888">元</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">赠送积分：</td>
+                                        <td><input type="text" name="info[product_point]"
+                                                   value="{$productData.product_point}"
+                                                   class="inputall input100"/> <span class="c888">个</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                       class="wenzhang mat10 mab10">
+                                    <tr>
+                                        <td align="right" width="150">商品图片：</td>
+                                        <td>
+                                            <p class="mab5" id="upload-product-logo-preview">
+                                                {volist name="$productData.product_logo" id="logo"}
+                                                <img src="__UPIMG__/products/product_logo/{$logo}" style="width:125px; height:125px">
+                                                {/volist}
+                                            </p>
+                                            <p><button type="button" class="layui-btn" id="upload-product-logo">图片上传</button></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="right_main">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                       class="wenzhang mat10 mab10">
+                                    <tr>
+                                        <td align="right" width="150">商品详情：</td>
+                                        <td>
+
+                                            <p class="mab5" id="upload-product-album-preview">
+                                                {volist name="productImg" id="album_array"}
+                                                <img src="__UPIMG__/products/product_album/{$album_array}" style="width:188px; height:125px">
+                                                {/volist}
+                                            </p>
+                                            <p><button type="button" class="layui-btn" id="upload-product-album">图片上传</button></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="center mat20 mab20">
+                                <!--提交上传图片-->
+                                <input type="button" value="提 交" class="tjbtn" id="editProductBtn"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

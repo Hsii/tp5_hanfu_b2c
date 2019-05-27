@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{$info['web_title']['setting_value']} Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="__STATIC__/admin/Index/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="__STATIC__/admin/Index/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="__STATIC__/admin/Index/css/style.css">
+  <link rel="stylesheet" href="__STATIC__/admin/Main/css/_main.css">
+  <link rel="stylesheet" href="__STATIC__/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="__STATIC__/admin/Main/common.css">
+  <link rel="stylesheet" href="__STATIC__/admin/Main/personal.css">
+  <link rel="stylesheet" href="__STATIC__/admin/Main/{$controller}.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="__STATIC__/admin/Index/images/favicon.png" />
+</head>
+<body>
+<div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="" href="http://58.87.89.241/admin/"><img src="__STATIC__/admin/images/776536269.png" alt="logo" width="190" height="60"/></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-stretch">
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item d-none d-lg-block full-screen-link">
+          <a class="nav-link">
+            <i style="font-size: 1.75em;" class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link count-indicator dropdown-toggle" href="{:url('cache/index')}">
+            <i><img src="__STATIC__/admin/images/更新.png"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link count-indicator dropdown-toggle" target="_blank" href="http://58.87.89.241/">
+            <i><img src="__STATIC__/admin/images/首页.png"></i>
+          </a>
+        </li>
+        <li class="nav-item nav-logout d-none d-lg-block">
+          <a class="nav-link" href="#" id="btn-logout">
+            <i style="font-size: 1.55em;" class="mdi mdi-power"></i>
+          </a>
+        </li>
+      </ul>
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+        <span class="mdi mdi-menu"></span>
+      </button>
+    </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <!--<li class="nav-item nav-profile">-->
+          <!--&lt;!&ndash; 跳转个人信息页面 &ndash;&gt;-->
+          <!--<a href="{:url('personal/index')}" class="nav-link">-->
+            <!--<div class="nav-profile-image">-->
+              <!--<img src="{$userPersonal->headimage}" alt="profile">-->
+              <!--<span class="login-status online"></span> &lt;!&ndash;change to offline or busy as needed&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="nav-profile-text d-flex flex-column">-->
+              <!--<span class="font-weight-bold mb-2">{$user.username}</span>-->
+            <!--</div>-->
+            <!--<i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>-->
+          <!--</a>-->
+        <!--</li>-->
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <span class="menu-title">商&nbsp;&nbsp;品&nbsp;&nbsp;中&nbsp;&nbsp;心</span>
+            <i class="menu-arrow"></i>
+            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+          </a>
+          <div class="collapse" id="ui-basic">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{:url('category/index')}">商&nbsp;&nbsp;品&nbsp;&nbsp;分&nbsp;&nbsp;类</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{:url('product/index')}">商&nbsp;&nbsp;品&nbsp;&nbsp;列&nbsp;&nbsp;表</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{:url('rule/index')}">规&nbsp;&nbsp;格&nbsp;&nbsp;管&nbsp;&nbsp;理</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{:url('comment/index')}">评&nbsp;&nbsp;价&nbsp;&nbsp;管&nbsp;&nbsp;理</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-deal" aria-expanded="false" aria-controls="ui-deal">
+            <span class="menu-title">交&nbsp;&nbsp;易&nbsp;&nbsp;管&nbsp;&nbsp;理</span>
+            <i class="menu-arrow"></i>
+            <i class="layui-icon layui-icon-rmb menu-icon"></i>
+          </a>
+          <div class="collapse" id="ui-deal">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{:url('order/index')}">订&nbsp;&nbsp;单&nbsp;&nbsp;列&nbsp;&nbsp;表</a></li>
+              <!--<li class="nav-item"> <a class="nav-link" href="{:url('refund/index')}">退&nbsp;&nbsp;款&nbsp;/&nbsp;换&nbsp;&nbsp;货</a></li>-->
+              <li class="nav-item"> <a class="nav-link" href="{:url('moneylog/index')}">资&nbsp;&nbsp;金&nbsp;&nbsp;明&nbsp;&nbsp;细</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{:url('pointlog/index')}">积&nbsp;&nbsp;分&nbsp;&nbsp;明&nbsp;&nbsp;细</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-control" aria-expanded="false" aria-controls="ui-control">
+            <span class="menu-title">用&nbsp;&nbsp;户&nbsp;&nbsp;管&nbsp;&nbsp;理</span>
+            <i class="menu-arrow"></i>
+            <i class="layui-icon layui-icon-user menu-icon"></i>
+          </a>
+          <div class="collapse" id="ui-control">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{:url('user/index')}">会&nbsp;&nbsp;员&nbsp;&nbsp;列&nbsp;&nbsp;表</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{:url('staff/index')}">管&nbsp;&nbsp;理&nbsp;&nbsp;帐&nbsp;&nbsp;号</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-article" aria-expanded="false" aria-controls="ui-article">
+            <span class="menu-title">文&nbsp;&nbsp;章&nbsp;&nbsp;中&nbsp;&nbsp;心</span>
+            <i class="menu-arrow"></i>
+            <i class="layui-icon layui-icon-list menu-icon"></i>
+          </a>
+          <div class="collapse" id="ui-article">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{:url('Article/index')}">文&nbsp;&nbsp;章&nbsp;&nbsp;列&nbsp;&nbsp;表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-setting" aria-expanded="false" aria-controls="ui-control">
+            <span class="menu-title">控&nbsp;&nbsp;制&nbsp;&nbsp;面&nbsp;&nbsp;板</span>
+            <i class="menu-arrow"></i>
+            <i class="layui-icon layui-icon-set-sm menu-icon"></i>
+            <!--<i class="mdi mdi-format-list-bulleted menu-icon"></i>-->
+          </a>
+          <div class="collapse" id="ui-setting">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{:url('setting/index')}">网&nbsp;&nbsp;站&nbsp;&nbsp;设&nbsp;&nbsp;置</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{:url('menu/index')}">导&nbsp;&nbsp;航&nbsp;&nbsp;管&nbsp;&nbsp;理</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{:url('banner/index')}">广&nbsp;&nbsp;告&nbsp;&nbsp;管&nbsp;&nbsp;理</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>

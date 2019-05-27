@@ -1,0 +1,30 @@
+<!--包含头部文件-->
+{include file="public/s_nav" /}
+
+<div id="mainer">
+    <div class="main_item">
+        <div class="base_tit">
+            <div class="base_tit_info">
+                <i class="left"></i>
+                <span class="font_red weight">推荐文章</span>
+                <i class="right"></i>
+            </div>
+        </div>
+        <ul class="wordlist js_wordlist">
+            {volist name="article" id="vo"}
+            <li>
+                <div class="word">
+                    <p class="weight f18 long_hide">
+                        <a href="http://58.87.89.241//articles/{$vo['article_id']}" target="_blank">{$vo['article_title']}</a>
+                    </p>
+                    <p class="font_gray desc">{$vo['article_text']}</p>
+                    <p class="mat5 fonsize12"><span class="fr">{$vo['create_time']}</span></p>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+
+<!--包含头部文件-->
+{include file="public/footer" /}

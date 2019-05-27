@@ -1,0 +1,46 @@
+<!--包含头部文件-->
+{include file="index@public/s_nav" /}
+<!--包含列表-->
+{include file="public/main_left" /}
+
+<div class="fr huiyuan_main">
+    <div class="hy_tt">
+        <a href="javascript:;" class="sel">我的评价<span>({$count})</span><i></i></a>
+    </div>
+    <div class="hy_tablelist">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody><tr>
+                <th>评价详情</th>
+                <th colspan="2">商品信息</th>
+            </tr>
+            {volist name="comment" id="vo"}
+            <tr>
+                <td style="text-align:left" valign="top">
+                    {$vo['comment_text']}
+                    <div class="mat10 cbbb font12">
+                        {$vo['create_time']}
+                        <span class="mal20">
+                            {$vo['comment_star'],12|pe_comment}
+                        </span>
+                        {neq name="$vo['comment_img']" value=''"}
+                        <span class="mal20">
+                            {$vo['comment_img']|getCommentImg}
+                        </span>
+                        {/neq}
+                    </div>
+                </td>
+                <td width="50" valign="top"><a href="http://58.87.89.241//detail/{$vo['product_id']}" class="dingdan_img" target="_blank"><img src="__UPIMG__/products/product_logo/{$vo['product_logo']}"></a></td>
+                <td class="aleft" style="padding-left:0;text-align: left;" width="250" valign="top">
+                    <a href="http://58.87.89.241//detail/{$vo['product_id']}" target="_blank" class="c888" style="line-height: 40px">{$vo['product_name']}</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody></table>
+    </div>
+    <div class="fenye mat10"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<!--包含头部文件-->
+{include file="index@public/footer" /}

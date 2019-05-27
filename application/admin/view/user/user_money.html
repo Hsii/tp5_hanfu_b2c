@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="__STATIC__/admin/Main/common.css" media="all">
+    <script src="__STATIC__/layui/layui.js"></script>
+    <script src="__STATIC__/layui/js/jquery-3.3.1.min.js"></script>
+    <script src="__STATIC__/admin/js/global.js"></script>
+    <script src="__STATIC__/admin/js/{$controller}.js"></script>
+</head>
+<body style="background:#fff;padding:10px">
+<form method="post" id="form" autocomplete="off">
+    <table class="wenzhang_bak" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td class="bgtt aright c888" width="100">用&nbsp;&nbsp;户 名</td>
+            <td class="user_id" data-id="{$user.id}">{$user.user_name}</td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888" width="100">用户账号</td>
+            <td id="user_email" data-email="{$user.user_email}">{$user.user_email}</td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888">账户余额</td>
+            <td><span class="corg num strong user_money" data-money="{$user.user_money}">{$user.user_money} 元</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888">{$act=='addmoney'?'充值':'扣除'}金额</td>
+            <td><input type="text" id="money" class="inputall input150">
+                元
+            </td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888">操作说明</td>
+            <td>
+                <input type="text" id="moneylog_text" class="inputall input300">
+            </td>
+        </tr>
+    </table>
+    <div class="acenter mat20">
+        <input type="button" value="提 交" class="tjbtn btn_user_money" data-action="{$act}">
+    </div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        var body = $(window.parent.frames["layui-layer-iframe1"].document);
+
+        $(".btn_user_money").click(function () {
+            var action = $(this).attr('data-action');       // 操作类型
+            var id = $('.user_id').attr('data-id');         // 操作id
+            var user_email = $('#user_email').attr('data-email');   // 操作账号
+            var user_money = $('.user_money').attr('data-money');   // 操作账号账面积分
+            var money = body.find('#money').val();                  // 操作账号结余积分
+            var moneylog_text = body.find('#moneylog_text').val();  // 操作说明
+            
+            if (money == '') {
+                layer.msg('请填写金额');
+                return false;
+            } else if (moneylog_text == '') {
+                layer.msg('请填写说明');
+                return false;
+            }
+            if (action == 'delmoney') {
+                if (eval(money) > eval(user_money)) {
+                    layer.msg('余额不足');
+                    return false;
+                } else {
+                    moneylog_in = 0;
+                    moneylog_out = money;
+                    money = user_money - money;
+                }
+            } else if (action == 'addmoney') {
+                moneylog_in = money;
+                moneylog_out = 0;
+                money = +user_money+ + money;
+            }
+            console.log(action);
+            console.log(id);
+            console.log(user_email);
+            console.log(money);
+            console.log(moneylog_in);
+            console.log(moneylog_out);
+            console.log(moneylog_text);
+            $.ajax({
+                url: 'save_user',
+                type: 'post',
+                dataType: 'json',
+                async: true,
+                data: {
+                    'type': 'money',
+                    'action': action,
+                    'id': id,
+                    'user_email': user_email,
+                    'user_money': money,
+                    'moneylog_in': moneylog_in,
+                    'moneylog_out': moneylog_out,
+                    'moneylog_text': moneylog_text
+                },
+                success: function (data) {
+                    if (data.code == 201 && data.errorCode == 10000) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            parent.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg + ',异常代码:' + data.errorCode, {
+                            icon: 5,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            parent.location.reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        })
+    })
+</script>
+</body>
+</html>

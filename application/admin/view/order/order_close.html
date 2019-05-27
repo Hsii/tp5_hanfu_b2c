@@ -1,0 +1,53 @@
+<!--包含头部文件-->
+{include file="public/header_dialog" /}
+
+{eq name="$order['order_pstate']" value="1"}
+<div class="tixing mab10 corg">本订单已支付，取消订单后将自动退款到用户余额！</div>
+{/eq}
+<form method="post" id="form" autocomplete="off">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang_bak">
+<tr>
+	<td class="bgtt aright c888" width="120">订单编号</td>
+	<td>{$order['order_id']} </td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">实付金额</td>
+	<td>
+		<span class="num strong corg">{$order['order_paid_money']} 元</span>
+		{eq name="$order['order_pstate']" value="1"}
+		<span class="cgreen mal10">[已支付]</span>
+		{else /}
+		<span class="corg mal10">[未支付]</span>
+		{/eq}
+	</td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">支付方式</td>
+	<td>余额支付</td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">取消原因</td>
+	<td><textarea name="order_closetext" style="width:350px; height:100px; resize:none"></textarea></td>
+</tr>
+</table>
+<div class="acenter mat30">
+	<input type="button" value="提 交" class="tjbtn" />
+</div>
+</form>
+<script type="text/javascript">
+$(function(){
+$(":button").click(function(){
+	if ($(":input[name='order_closetext']").val() == '') {
+		pe_tip('请填写订单关闭原因');
+		return false;
+	}
+	$("form").submit();
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);//关闭当前页
+    parent.location.reload();
+})
+})
+</script>
+
+<!--包含footer文件-->
+{include file="public/footer_dialog" /}

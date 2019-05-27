@@ -1,0 +1,65 @@
+<table class="wenzhang mat20" width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td width="150" align="right">公告功能：</td>
+		<td>
+			<label class="mar20">
+				<input type="radio" name="info[notice_state]" value="1"
+					   {if condition="$info['notice_state']['setting_value'] eq 1"}checked{/if}
+				>  开启</label>
+			<label class="mar20">
+				<input type="radio" name="info[notice_state]" value="0"
+						{if condition="$info['notice_state']['setting_value'] eq 0"}checked{/if}
+				> 关闭</label>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">公告内容：</td>
+		<td><textarea name="info[notice_content]" style="width:300px;height:80px;">{$info['notice_content']['setting_value']}</textarea></td>
+	</tr>
+	<tr>
+		<td align="right">开启时间：</td>
+		<td>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input input200" name="info[notice_start_time]" value="{$info['notice_start_time']['setting_value']}" id="notice_start_time" placeholder="yyyy-MM-dd HH:mm:ss">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">关闭时间：</td>
+		<td>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input input200" name="info[notice_end_time]" value="{$info['notice_end_time']['setting_value']}" id="notice_end_time" placeholder="yyyy-MM-dd HH:mm:ss">
+			</div>
+		</td>
+	</tr>
+</table>
+<script>
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#notice_start_time'
+            , type: 'datetime'
+			, value: $('#notice_start_time').val()
+            , min: 0
+            , max: '2019-12-31'
+            , isInitValue: true
+            , done: function(value, date, endDate){
+                $('#notice_start_time').attr('value',value);
+                console.log(value); //得到日期生成的值，如：2017-08-18
+            }
+        });
+        laydate.render({
+            elem: '#notice_end_time'
+            , type: 'datetime'
+            , value: $('#notice_end_time').val()
+            , min: 0
+            , max: '2019-12-31'
+            , isInitValue: true
+            , done: function(value, date, endDate){
+                $('#notice_end_time').attr('value',value);
+                console.log(value); //得到日期生成的值，如：2017-08-18
+            }
+        });
+    });
+</script>

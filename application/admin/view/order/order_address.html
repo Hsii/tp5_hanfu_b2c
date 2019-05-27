@@ -1,0 +1,47 @@
+<!--包含头部文件-->
+{include file="public/header_dialog" /}
+
+<form method="post" id="form" autocomplete="off">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang_bak">
+<tr>
+	<td class="bgtt aright c888" width="120">订单编号</td>
+	<td>{$order['order_id']}</td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">收 货 人</td>
+	<td><input type="text" name="user_tname" value="{$order['user_tname']}" class="inputall input150"></td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">手机号码</td>
+	<td><input type="text" name="user_phone" value="{$order['user_phone']}" class="inputall input150" /></td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">收货地址</td>
+	<td><input type="text" name="user_address" value="{$order['user_address']}" class="inputall input350" /></td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">买家留言</td>
+	<td><textarea name="order_text" style="width:355px;height:80px">{$order['order_text']}</textarea></td>
+</tr>
+</table>
+<div class="acenter mat30">
+	<input type="hidden" name="order_id" value="{$order['order_id']}">
+	<input type="submit" value="提 交" class="tjbtn" />
+</div>
+</form>
+<script type="text/javascript">
+    $(function(){
+        $(".tjbtn").click(function(){
+            if ($(":input[name='user_tname']").val() == '' || $(":input[name='user_phone']").val() == '' || $(":input[name='user_address']").val() == '') {
+                pe_tip('请保持信息完整');
+                return false;
+            }
+			$("form").submit();
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);//关闭当前页
+            parent.location.reload();
+        })
+    })
+</script>
+<!--包含footer文件-->
+{include file="public/footer_dialog" /}

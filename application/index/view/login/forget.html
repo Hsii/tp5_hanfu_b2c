@@ -1,0 +1,53 @@
+<!--包含头部文件-->
+{include file="public/s_nav" /}
+
+<div id="mainer">
+    {if $token}
+    <div class="form">
+        <form class="layui-form" action="">
+            <div class="line">
+                <span class="key">密码：</span>
+                <div class="value">
+                    <input type="password" class="inputall input200" id="info[user_password]" required
+                           lay-verify="required|pass">
+                    <span class="describe">8到20个字符，不能含有特殊符号</span>
+                </div>
+            </div>
+            <div class="line">
+                <span class="key">确认密码：</span>
+                <div class="value">
+                    <input type="password" class="inputall input200" id="info[user_Repassword]" required
+                           lay-verify="required|repass">
+                    <span class="describe">8到20个字符，不能含有特殊符号</span>
+                </div>
+            </div>
+            <div class="line">
+                <span class="key">&nbsp;</span>
+                <div class="value">
+                    <input type="hidden" id="data-id" data-id="{$data}">
+                    <input type="hidden" id="data-token" value="{$token}">
+                    <input type="button" class="btn_red p4" lay-filter="btn_forget" lay-submit value="修改"  style="border: 1px #f46 solid;">
+                </div>
+            </div>
+        </form>
+    </div>
+    {else /}
+    <div class="form">
+        <div class="line">
+            <span class="key">邮箱：</span>
+            <div class="value">
+                <input type="text" class="inputall input200" id="text_email">
+            </div>
+        </div>
+        <div class="line">
+            <span class="key">&nbsp;</span>
+            <div class="value">
+                <input type="button" class="btn_red p4" onclick="return updpwd_email();" value="发送邮箱" style="border: 1px #f46 solid;">
+            </div>
+        </div>
+    </div>
+    {/if}
+</div>
+
+<!--包含footer文件-->
+{include file="public/footer" /}

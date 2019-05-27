@@ -1,0 +1,86 @@
+<!--包含头部文件-->
+{include file="index@public/s_nav" /}
+<!--包含列表-->
+{include file="public/main_left" /}
+
+<div class="fr huiyuan_main">
+    <div class="hy_tt">
+        <a href="javascript:;" class="sel">新增地址<i></i></a>
+    </div>
+    <div class="hy_table">
+        <form method="post" id="form">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr>
+                    <td style="text-align:right;" width="150">收&nbsp;&nbsp;货 人：</td>
+                    <td>
+                        <input type="text" name="user_tname" value="" class="inputall input200">
+                        <span id="user_tname_show"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">手机号码：</td>
+                    <td>
+                        <input type="text" name="user_phone" value="" class="inputall input200">
+                        <span id="user_phone_show"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">所在城市：</td>
+                    <td id="cityselect">
+                        <select name="address_province" class="js_prov inputselect"></select>
+                        <select name="address_city" class="js_city inputselect"></select>
+                        <select name="address_area" class="js_area inputselect"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">详细地址：</td>
+                    <td>
+                        <input type="text" name="address_text" value="" class="inputall input400">
+                        <span id="address_text_show"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;"></td>
+                    <td>
+                        <label for="default">
+                            <input type="checkbox" name="address_default" value="1" class="inputfix mar5" id="default">
+                            <span>设为默认收货地址</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="button" value="提 交" class="tjbtn">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="clear"></div>
+</div>
+
+<!--包含头部文件-->
+{include file="index@public/footer" /}
+<script type="text/javascript" src="__STATIC__/common/js/cityChoice.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#cityselect").shengshi({
+            prov: "",
+            city: "",
+            area: ""
+        });
+        $('.tjbtn').click(function () {
+            pe_submit("http://58.87.89.241//index/user/useraddress?mod=useraddr&act=save", function(json){
+                if (json.result) {
+                    pe_tip('提交成功');
+                }else{
+                    pe_tip('添加失败','error');
+                }
+            })
+        });
+    });
+</script>

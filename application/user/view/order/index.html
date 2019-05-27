@@ -1,0 +1,79 @@
+<!--包含头部文件-->
+{include file="index@public/s_nav" /}
+<!--包含列表-->
+{include file="public/main_left" /}
+
+<div class="fr huiyuan_main">
+    <div class="hy_tt">
+        <a href="#" class="sel">全部订单<span>({$count})</span><i></i></a>
+    </div>
+    <div class="mat15">
+        <table class="hy_ordertt1" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+                <td>商品信息</td>
+                <td width="100">退款/退货</td>
+                <td width="121">实付款(元)</td>
+                <td width="101">状态</td>
+                <td width="101">操作</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {volist name="order" id="vo"}
+    <div class="hy_ordertt">
+        <span class="fl">{$vo['order_atime']|TimeStamp}</span>
+        <span class="fl" style="margin-left:30px">订单号：{$vo['order_id']}</span>
+        <div class="clear"></div>
+    </div>
+
+    <table class="hy_orderlist" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td style="text-align:left;">
+                {volist name="$vo['orderdata']" id="orderdata"}
+                <div class="dingdan_list" style="padding-top:0;border-top:0">
+                    <a href="http://58.87.89.241//detail/{$orderdata['product_id']}" class="fl mar5 dingdan_img" target="_blank"><img src="__UPIMG__/products/product_logo/{$orderdata['product_logo']}"></a>
+                    <div class="fl dingdan_name">
+                        <a href="http://58.87.89.241//detail/{$orderdata['product_id']}" target="_blank" class="dd_name">{$orderdata['product_name']}</a>
+                        <p class="c888 mat5">{$orderdata['product_rule']|getUnserialize}</p>
+                    </div>
+                    <div class="fl dingdan_jg">¥{$orderdata['product_money']} <span class="mat5 c888 font12">×{$orderdata['product_num']}</span></div>
+                    <div class="fr dingdan_tk">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                {/volist}
+            </td>
+            <td width="120">
+                <p class="corg font14 strong">{$vo['order_paid_money']}</p>
+                <p class="c999">（含运费：{$vo['order_wl_money']}）</p>
+                <p class="c999">余额支付</p>
+            </td>
+            <td width="100">
+                <span class="corg">{$vo['order_state']|choiceOrderState}</span>
+                <p>
+                    <a href="view.html?order_id={$vo['order_id']}" target="_blank">订单详情</a>
+                </p>
+            </td>
+            <td width="100" class="ah">
+                {switch name="$vo['order_state']"}
+                {case value="wpay"}
+                <a class="tag_org" style="border-radius: 15px;padding: 0 15px;" href="http://58.87.89.241//index/order/pay.html?act=pay&amp;uid={$vo['order_id']}" target="_blank">立即付款</a>
+                {/case}
+                {case value="wsend"}-{/case}
+                {case value="wget"}
+                <a class="tag_blue" style="border-radius: 15px;padding: 0 15px;" href="javascript:pe_confirm('已收到商品', 'http://58.87.89.241//user/order/confirm?order_id={$vo['order_id']}&product_id={$orderdata['product_id']}');">确认收货</a>
+                {/case}
+                {case value="success"}
+                <a class="tag_gray" style="border-radius: 15px;padding: 0 15px;" href="http://58.87.89.241//user/order/order_comment.html?id={$vo['order_id']}" onclick="return pe_dialog(this, '发表评价', 800, 500)">发表评价</a>
+                {/case}
+                {case value="close"}-{/case}
+                {/switch}
+            </td>
+        </tr>
+    </table>
+    {/volist}
+</div>
+</div>
+<!--包含头部文件-->
+{include file="index@public/footer" /}

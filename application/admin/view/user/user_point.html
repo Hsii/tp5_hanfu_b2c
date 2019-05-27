@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="__STATIC__/admin/Main/common.css" media="all">
+    <script src="__STATIC__/layui/layui.js"></script>
+    <script src="__STATIC__/layui/js/jquery-3.3.1.min.js"></script>
+    <script src="__STATIC__/admin/js/global.js"></script>
+    <script src="__STATIC__/admin/js/{$controller}.js"></script>
+</head>
+<body style="background:#fff;padding:10px">
+<form method="post" id="form" autocomplete="off">
+    <table class="wenzhang_bak" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td class="bgtt aright c888" width="100">用&nbsp;&nbsp;户 名</td>
+            <td class="user_id" data-id="{$user.id}">{$user.user_name}</td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888" width="100">用户账号</td>
+            <td id="user_email" data-email="{$user.user_email}">{$user.user_email}</td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888">积分余额</td>
+            <td><span class="corg num strong user_point" data-point="{$user.user_point}">{$user.user_point} 个</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888">{$act=='addpoint'?'充值':'扣除'}积分</td>
+            <td><input type="text" id="point" class="inputall input150">
+                个
+            </td>
+        </tr>
+        <tr>
+            <td class="bgtt aright c888">操作说明</td>
+            <td>
+                <input type="text" id="pointlog_text" class="inputall input300">
+            </td>
+        </tr>
+    </table>
+    <div class="acenter mat20">
+        <input type="button" value="提 交" class="tjbtn btn_user_point" data-action="{$act}">
+    </div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        var body = $(window.parent.frames["layui-layer-iframe1"].document);
+
+        $(".btn_user_point").click(function () {
+            var action = $(this).attr('data-action');       // 操作类型
+            var id = $('.user_id').attr('data-id');         // 操作id
+            var user_email = $('#user_email').attr('data-email');   // 操作账号
+            var user_point = $('.user_point').attr('data-point');   // 操作账号账面积分
+            var point = body.find('#point').val();                  // 操作账号结余积分
+            var pointlog_text = body.find('#pointlog_text').val();  // 操作说明
+//            console.log(action);
+//            console.log(point);
+//            console.log(user_point);
+            if (point == '') {
+                layer.msg('请填写积分');
+                return false;
+            } else if (pointlog_text == '') {
+                layer.msg('请填写说明');
+                return false;
+            }
+            if (action == 'delpoint') {
+                if (eval(point) > eval(user_point)) {
+                    layer.msg('余额不足');
+                    return false;
+                } else {
+                    pointlog_in = 0;
+                    pointlog_out = point;
+                    point = user_point - point;
+                }
+            } else if (action == 'addpoint') {
+                pointlog_in = point;
+                pointlog_out = 0;
+                point = +user_point+ + point;
+            }
+            console.log(action);
+            console.log(id);
+            console.log(user_email);
+            console.log(point);
+            console.log(pointlog_in);
+            console.log(pointlog_out);
+            console.log(pointlog_text);
+            $.ajax({
+                url: 'save_user',
+                type: 'post',
+                dataType: 'json',
+                async: true,
+                data: {
+                    'type': 'point',
+                    'action': action,
+                    'id': id,
+                    'user_email': user_email,
+                    'user_point': point,
+                    'pointlog_in': pointlog_in,
+                    'pointlog_out': pointlog_out,
+                    'pointlog_text': pointlog_text
+                },
+                success: function (data) {
+                    if (data.code == 201 && data.errorCode == 10000) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            parent.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg + ',异常代码:' + data.errorCode, {
+                            icon: 5,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            parent.location.reload();
+                        });
+                    }
+                }
+            });
+            return false;
+//            pe_submit('save_user', function (json) {
+//                if (json.result) pe_open('dialog', 1000);
+//            })
+
+        })
+//        });
+    })
+</script>
+</body>
+</html>

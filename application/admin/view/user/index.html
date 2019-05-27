@@ -1,0 +1,73 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a class="sel" href="javascript:void(0)">会员列表（{$count}）<i></i></a>
+                        </div>
+                        <div class="right_main">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                                <tr>
+                                    <th class="bgtt" width="20">ID号</th>
+                                    <th class="bgtt" width="20"></th>
+                                    <th class="bgtt" width="40">用户名</th>
+                                    <th class="bgtt" width="30">邮箱</th>
+                                    <th class="bgtt" width="30">手机号码</th>
+                                    <th class="bgtt" width="50">总消费额</th>
+                                    <th class="bgtt" width="50">账户余额</th>
+                                    <th class="bgtt" width="40">积分余额</th>
+                                    <th class="bgtt" width="40">订单数</th>
+                                    <th class="bgtt" width="60">注册地址</th>
+                                    <th class="bgtt" width="40">注册日期</th>
+                                    <th class="bgtt" width="100">操作</th>
+                                </tr>
+                                {foreach name="userData" item="vo"}
+                                <tr class="user_data">
+                                    <input type="hidden" id="token" data-token="{$vo.code}">
+                                    <td id="{$vo.id}">{$vo.id}</td>
+                                    <td>
+                                        <img src="__UPIMG__/user/logo/{$vo.user_logo}" width="40" height="40"
+                                             class="imgbg"/>
+                                    </td>
+                                    <td>{eq name="$vo.state" value="-1"}
+                                        <span class="num corg">{$vo.user_name}<i class="fonsize10">(状态异常)</i></span>
+                                        {else /}
+                                        {$vo.user_name}
+                                        {/eq}
+                                    </td>
+                                    <td>{$vo.user_email}</td>
+                                    <td>{$vo.user_phone}</td>
+                                    <td><span class="num corg">{$vo.user_money_cost} 元</span></td>
+                                    <td><span class="num corg">{$vo.user_money} 元</span></td>
+                                    <td><span class="num corg">{$vo.user_point}</span></td>
+                                    <td>预留修改位</td>
+                                    <td>{$vo.user_address}</td>
+                                    <td>{$vo.create_time|handleSettingTime}</td>
+
+                                    <td>
+                                        <a class="btn_edit user_edit" href="javascript:void(0);">修改</a>
+                                        {eq name="$vo.state" value="-1"}
+                                        <a href="javascript:void(0)" class="user_confirm btn_del" data-state="1" style="width:60px;">取消限制</a>
+                                        {else /}
+                                        <a href="javascript:void(0)" class="user_confirm btn_del" data-state="-1"  style="width:60px;">限制操作</a>
+                                        {/eq}
+                                    </td>
+                                </tr>
+                                {/foreach}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

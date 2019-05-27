@@ -1,0 +1,65 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="now">
+                        <a class="sel" href="javascript:void(0)">积分明细（{$count}）<i></i></a>
+                    </div>
+                    <div class="search">
+                        <form method="get">
+                            <input type="hidden" name="mod" value="pointlog">
+                            用户名：
+                            <input type="text" name="user_name" class="inputtext inputtext_100"/>
+                            <select name="type" class="selectmini">
+                                <option value="" href="javascript:void(0);">= 积分类型 =</option>
+                                <option value="give" href="?mod=pointlog&amp;type=give">1)系统赠送</option>
+                                <option value="add" href="?mod=pointlog&amp;type=add">2)系统充值</option>
+                                <option value="back" href="?mod=pointlog&amp;type=back">3)系统退还</option>
+                                <option value="order_pay" href="?mod=pointlog&amp;type=order_pay">4)抵现扣除</option>
+                                <option value="del" href="?mod=pointlog&amp;type=del">5)系统扣除</option>
+                            </select>
+                            <input type="submit" value="搜索" class="input_btn">
+                        </form>
+                    </div>
+                    <div class="right_main">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+                            <tr>
+                                <th class="bgtt" width="180">交易日期</th>
+                                <th class="bgtt" width="180">用户名</th>
+                                <th class="bgtt" width="100">交易类型</th>
+                                <th class="bgtt" width="100">增加(个)</th>
+                                <th class="bgtt" width="100">减少(个)</th>
+                                <th class="bgtt" width="100">结余(个)</th>
+                                <th class="bgtt">备注</th>
+                            </tr>
+                            {volist name="pointlog" id="vo"}
+                            <tr>
+                                <td class="num">{$vo.create_time|isNow}</td>
+                                <td>{$vo.user_email}</td>
+                                <td>{$vo.pointlog_type|switchLogType}</td>
+                                <td><span class="num strong cgreen">+{$vo.pointlog_in}</span></td>
+                                <td><span class="num strong cred">-{$vo.pointlog_out}</span></td>
+                                <td><span class="num"> {$vo.pointlog_now}</span></td>
+                                <td class="aleft">{$vo.pointlog_text}</td>
+                            </tr>
+                            {/volist}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--包含footer文件-->
+    {include file="public/footer" /}
+    <script type="text/javascript">
+        $(function(){
+            $("select").change(function(){
+                window.location.href = $(this).find("option:selected").attr("href");
+            })
+        })
+    </script>

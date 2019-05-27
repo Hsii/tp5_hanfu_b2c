@@ -1,0 +1,41 @@
+<!--包含头部文件-->
+{include file="index@public/s_nav" /}
+<!--包含列表-->
+{include file="public/main_left" /}
+
+<div class="fr huiyuan_main">
+    <div class="hy_tt">
+        <a href="javascript:;" class="sel">我的收藏<span>({$count})</span><i></i></a>
+    </div>
+    <div class="hy_tablelist">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+                <th colspan="2">商品信息</th>
+                <th width="100">价格</th>
+                <th width="100">收藏日期</th>
+                <th width="80">操作</th>
+            </tr>
+            {volist name="collect" id="vo"}
+            <tr>
+                <td width="50">
+                    <a href="http://58.87.89.241//detail/{$vo['product']['id']}" class="dingdan_img" target="_blank">
+                        <img src="__UPIMG__/products/product_logo/{$vo['product']['product_logo']}">
+                    </a>
+                </td>
+                <td class="aleft" style="padding-left:0"><a href="http://58.87.89.241//detail/{$vo['product']['id']}" target="_blank" class="cblue">{$vo['product']['product_name']}</a></td>
+                <td>¥{$vo['product']['product_money']}</td>
+                <td>{$vo['create_time']|handleSettingTime}</td>
+                <td><a href="#" onclick="return lay_cfone(this, 'http://58.87.89.241//index/detail/product_collect?id={$vo['product']['id']}','删除此收藏')" class="tag_gray">删除</a></td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="fenye mat10"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<!--包含头部文件-->
+{include file="index@public/footer" /}

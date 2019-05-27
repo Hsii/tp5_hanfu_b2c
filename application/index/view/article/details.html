@@ -1,0 +1,21 @@
+<!--包含头部文件-->
+{include file="public/s_nav" /}
+
+<div id="mainer">
+   <div class="data_info_box">
+        <div class="data_info_main">
+            <p class="title">
+                {$article['article_title']}
+            </p>
+            <p class="font_gray mat20 user">
+                {$article['create_time']}
+            </p>
+            <div class="content">
+                {$article['article_text']}
+            </div>
+        </div>
+   </div>
+</div>
+
+<!--包含头部文件-->
+{include file="public/footer" /}

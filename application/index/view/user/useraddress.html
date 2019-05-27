@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/admin/Main/common.css" />
+</head>
+<body style="background:#fff;padding:5px; ">
+<form method="post" id="form">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang mat20 addr_zj">
+        <tr>
+            <td style="text-align:right;" width="120">收货人：</td>
+            <td>
+                <input type="text" name="user_tname" class="inputall input200"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">手机号码：</td>
+            <td>
+                <input type="text" name="user_phone" class="inputall input200"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">所在城市：</td>
+            <td id="cityselect">
+                <select name="address_province" class="js_prov inputselect"></select>
+                <select name="address_city" class="js_city inputselect"></select>
+                <select name="address_area" class="js_area inputselect"></select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">详细地址：</td>
+            <td>
+                <input type="text" name="address_text" class="inputall input400"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;"></td>
+            <td style="padding-top:0; padding-bottom:0; line-height:14px;height:14px;">
+                <label for="default">
+                    <input type="checkbox" name="address_default" value="1" checked="checked" class="inputfix mar5" id="default" />
+                    <span>设为默认收货地址</span>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;"></td>
+            <td>
+                <input type="hidden" name="pesubmit" />
+                <input type="button" value="提 交" class="tjbtn"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript" src="__STATIC__/layui/layui.js"></script>
+<script type="text/javascript" src="__STATIC__/layui/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/global.js"></script>
+<script type="text/javascript" src="__STATIC__/index/js/common.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/cityChoice.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#cityselect").shengshi({
+            prov:"",
+            city:"",
+            area:""
+        });
+    });
+    $(":button").click(function () {
+        pe_submit("{:url('user/useraddress','mod=useraddr&act=save')}", function(json){
+            if (json.result) {
+                layer.msg('添加成功',function () {
+                    window.parent.layer.closeAll();
+                    parent.location.reload();
+                });
+            }else{
+                pe_tip('添加失败','error');
+            }
+        })
+    });
+</script>
+</body>
+</html>

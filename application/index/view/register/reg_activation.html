@@ -1,0 +1,52 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+
+<div class="reg_main">
+    <div class="main_number">
+        <i class="line line_one line_active"></i>
+        <div class="num">
+            <i class="bg_red">1</i>
+            <p class="text">填写注册信息</p>
+        </div>
+        <div class="num">
+            <i class="bg_red">2</i>
+            <p class="text">确认注册信息</p>
+        </div>
+        <i class="line line_two"></i>
+        <div class="num">
+            <i class="bg_gray">3</i>
+            <p class="text">完善个人信息</p>
+        </div>
+    </div>
+    <div class="reg_data reg_activation">
+        <div class="form">
+            <div class="line">
+                <p class="reg_activation_title">
+                    您的激活邮箱是 &nbsp;<span class="activation_title_red">{$RegData.user_email}</span>
+                </p>
+            </div>
+            <div class="line">
+                <span class="reg_activation_title">请前往邮箱激活您的账号,激活后方可进行下一步操作。</span>
+            </div>
+            <div class="line">
+                <div class="value">
+                    <input type="hidden" id="reg_activation" data-id="{$RegData.id}">
+                    {eq name="$RegData.state" value="0"}
+                    <input type="button" class="tjbtn btn_activation btn_reg_activation" disabled="disabled" value="下一步">
+                    {else/}
+                    <input type="button" class="tjbtn btn_reg_activation" value="下一步">
+                    {/eq}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--包含footer文件-->
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function () {
+        $('.reg_main').css('min-height','484px');
+    });
+</script>

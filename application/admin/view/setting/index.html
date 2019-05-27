@@ -1,0 +1,94 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now" id="navitem_a">
+                            <a class="sel" href="javascript:void(0)">网站设置<i></i></a>
+                            <a href="javascript:void(0)">会员设置<i></i></a>
+                            <a href="javascript:void(0)">积分设置<i></i></a>
+                            <a href="javascript:void(0)">公告设置<i></i></a>
+                            <!--<a href="javascript:void(0)">短信设置<i></i></a>-->
+                            <a href="javascript:void(0)">邮箱设置<i></i></a>
+                        </div>
+                        <form method="POST" id="form" enctype="multipart/form-data">
+                            <div class="right_main">
+                                <table class="wenzhang mat20" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                        <td width="150" align="right">网站标题：</td>
+                                        <td><input type="text" name="info[web_title]" value="{$info['web_title']['setting_value']}"
+                                                   class="inputall input500"></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">网站描述：</td>
+                                        <td><textarea name="info[web_description]" style="width:505px;height:100px;">{$info['web_description']['setting_value']}</textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Logo：</td>
+                                        <td>
+                                            <div class="fl" style="width:510px">
+                                                <p class="mab5" id="upload-logo-preview">
+                                                    <img src="__UPIMG__/web_setting/{$info['web_logo']['setting_value']}"
+                                                        style="border:1px solid #ddd" height="55" width="100"></p>
+                                                <p><button type="button" class="layui-btn" id="upload-logo">图片上传</button></p>
+                                            </div>
+                                            <div class="fl c999 mal10 mat15">（尺寸185*55）</div>
+                                            <div class="clear"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">公众号二维码：</td>
+                                        <td>
+                                            <p class="mab5" id="upload-qrcode-preview"><img
+                                                    src="__UPIMG__/web_setting/{$info['web_qrcode']['setting_value']}"
+                                                    style="border:1px solid #ddd" height="70" width="70"></p>
+                                            <p><button type="button" class="layui-btn" id="upload-qrcode">图片上传</button></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">客服电话：</td>
+                                        <td><input type="text" name="info[web_phone]" value="{$info['web_phone']['setting_value']}"
+                                                   class="inputall input500"></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">版权所有：</td>
+                                        <td>
+                                            <input type="text" name="info[web_copyright]" value="{$info['web_copyright']['setting_value']}" class="inputall input500"></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">快递设置：</td>
+                                        <td>
+                                            <textarea name="info[web_wlname]" style="width:505px;height:120px;" class="fl">{$info['web_wlname']['setting_value']}</textarea>
+                                            <span class="fl c999 mal10" style="margin-top:45px">（多个请用“,”隔开）</span>
+                                            <div class="clear"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="right_main" style="display: none" id="setting_user"></div>
+                            <div class="right_main" style="display: none" id="setting_point"></div>
+                            <div class="right_main" style="display: none" id="setting_notice"></div>
+                            <!--<div class="right_main" style="display: none" id="setting_sms"></div>-->
+                            <div class="right_main" style="display: none" id="setting_email"></div>
+                        </form>
+                        <div class="mal200 mab10">
+                            <input type="submit" name="pesubmit" value="提 交" class="tjbtn">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}

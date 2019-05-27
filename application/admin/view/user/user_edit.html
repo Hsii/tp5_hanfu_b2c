@@ -1,0 +1,88 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header"></div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="rule-body">
+                        <div class="now">
+                            <a href="javascript:void(0);" class="sel">修改会员<i></i></a>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="right_main">
+                            <table class="wenzhang mat20" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td width="150" align="right">用 户 名：</td>
+                                    <td>
+                                        <span class="fl" style="width:218px">{$userDataArr.user_name} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">登录密码：</td>
+                                    <td><input type="password" name="user_pw" class="inputall input200"/><span
+                                            class="c999 mal10">（不修改请留空）</span></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">账户余额：</td>
+                                    <td>
+                                        <span class="num corg fl" style="width:110px">{$userDataArr.user_money} 元</span>
+                                        <a href="user_money?mod=user&amp;act=addmoney&amp;id={$userDataArr.id}" class="btn_edit mar10" onclick="return pe_dialog(this, '账户充值', 550, 350)">充值</a>
+                                        <a href="user_money?mod=user&amp;act=delmoney&amp;id={$userDataArr.id}" class="btn_del " onclick="return pe_dialog(this, '账户扣款', 550, 350)">扣款</a>
+                                        <span class="c999 mal10">（累计消费：{$userDataArr.user_money_cost} 元）</span>
+                                        <div class="clear"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">积分余额：</td>
+                                    <td>
+                                        <span class="num fl" style="width:110px">{$userDataArr.user_point} 个</span>
+                                        <a href="user_point?mod=user&act=addpoint&id={$userDataArr.id}"
+                                           class="btn_edit mar10"
+                                           onclick="return pe_dialog(this,'积分充值', 550, 350)">充值</a>
+                                        <a href="user_point?mod=user&act=delpoint&id={$userDataArr.id}" class="btn_del"
+                                           onclick="return pe_dialog(this,'积分扣除', 550, 350)">扣除</a>
+                                        <div class="clear"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">手机号码：</td>
+                                    <td><input type="text" name="info[user_phone]" value="{$userDataArr.user_phone}"
+                                               class="inputall input200"/></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">电子邮箱：</td>
+                                    <!--<td><input type="text" name="info[user_email]" value="{$userDataArr.user_email}" class="inputall input200" /></td>-->
+                                    <td class="num">{$userDataArr.user_email}</td>
+                                </tr>
+                                <tr>
+                                    <td align="right">注册地区：</td>
+                                    <td><span class="num mal10">{$userDataArr.user_ip}</span></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">注册日期：</td>
+                                    <td class="num">{$userDataArr.create_time}</td>
+                                </tr>
+                                <tr>
+                                    <td align="right">上次登录：</td>
+                                    <td class="num">{$userDataArr.user_ltime|date='Y-m-d H:i:s',###}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="submit" name="pesubmit" value="提 交" class="tjbtn pesubmit_edit"
+                                               data-id="{$userDataArr.id}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <!--包含footer文件-->
+    {include file="public/footer" /}
